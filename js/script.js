@@ -97,7 +97,7 @@ function play(plays){
   }else{
     //if there's a tie, the cards played and three more cards each get added to the dump pile
     //play again to see who gets them
-    //burn(plays);
+    burn(plays);
     return;
   }
   //move append contents of inPlay to winning stack
@@ -115,41 +115,85 @@ function play(plays){
       })
     })
 
-    console.log(document.querySelector('.p0').children.length,document.querySelector('.p1').children.length,
-    d3.selectAll('.card')[0].length);
-
   //if there's anything in the dump pile and there's a winner,
   //add contents of dump pile to winner's stack
-  // if (dump.length>0 && winner){
-  //   while (dump.length>0){
-  //     stacks[winner].stack.push(dump.pop());
-  //     pStacks[winner].appendChild(burnPile.children[0]);
-  //   }
-  // }
+  var dumpLen = burnPile.selectAll('.card')[0].length;
+  if (dumpLen>0 && winner>=0){
+
+    burnPile.selectAll('.card')
+      .each(function(d,i){
+        console.log(winner);
+        d3.select(this)
+          .transition().duration(300).delay(function() { return i * 50; })
+          .attr('transform',function(){
+            var x = (winner==0)?50:500;
+            var y = 400;
+            return 'translate('+x+','+y+')';
+          })
+
+        var that = d3.select(this).remove();
+        d3.select('.p'+winner).append(function(){
+          return that.node();
+        })
+      });
+
+    // while (dump.length>0){
+    //   stacks[winner].stack.push(dump.pop());
+    //   pStacks[winner].appendChild(burnPile.children[0]);
+    // }
+  }
 }
 
 function burn(plays){
   var burns = getBurnCounts();
-  // console.log(burns);
-  //
-  // for (var i=0;i<burns[0];i++){
-  //
-  // }
-  //remove cards to burn into theseBurns array
-  //var dump1 = stacks[0].stack.splice(0,burns[0]);
-  //var dump2 = stacks[1].stack.splice(0,burns[1]);
-  //var theseBurns = plays.concat(dump1,dump2);
-  //if nothing in dump, make dump = theseBurns, else add theseBurns to existing dump
-  dump = (dump.length == 0)?theseBurns:dump.concat(theseBurns);
+  var dump1 = d3.select('.p0').selectAll('.card').filter(function(d,i){return i<burns[0]})
+    .each(function(d,i){
+      d3.select(this)
+        //.attr('stack',stackNum)
+        .transition().duration(300).delay(function() { return i * 50; })
+        .attr('transform',function(){
+          var x = 500;
+          var y = 50;
+          return 'translate('+x+','+y+')';
+        })
 
-  for (var i=0;i<burns.length;i++){
-    for (var b=0;b<burns[i];b++){
-      burnPile.appendChild(pStacks[i].children[0]);
-    }
-  }
-  //put cards in inPlay into burnPile
-  burnPile.appendChild(inPlay.children[0]);
-  burnPile.appendChild(inPlay.children[0]);
+      var that = d3.select(this).remove();
+      burnPile.append(function(){
+        return that.node();
+      })
+    });
+
+  var dump2 = d3.select('.p1').selectAll('.card').filter(function(d,i){return i<burns[1]})
+    .each(function(d,i){
+      d3.select(this)
+        .transition().duration(300).delay(function() { return i * 50; })
+        .attr('transform',function(){
+          var x = 500;
+          var y = 50;
+          return 'translate('+x+','+y+')';
+        })
+
+      var that = d3.select(this).remove();
+      burnPile.append(function(){
+        return that.node();
+      })
+    });
+
+    inPlay.selectAll('.inPlay').attr('class','card')
+    .each(function(d,i){
+      d3.select(this)
+        .transition().duration(300).delay(function() { return i * 50; })
+        .attr('transform',function(){
+          var x = 500;
+          var y = 50;
+          return 'translate('+x+','+y+')';
+        })
+
+      var that = d3.select(this).remove();
+      burnPile.append(function(){
+        return that.node();
+      })
+    });
 }
 
 function getBurnCounts(){
@@ -161,11 +205,10 @@ function getBurnCounts(){
     var burn = (stackLength>3)?3:stackLength - 1;
     burns.push(burn);
   }
-
   return burns;
 }
 
-
+//
 shuffle()
 shuffle()
 shuffle()
