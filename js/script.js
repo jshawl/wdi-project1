@@ -3,6 +3,8 @@ var special = ['J','Q','K','A'];
 var suits = ['s','h','c','d'];
 var deckList = [];
 
+var colors = d3.scale.linear().domain([2,14]).range(['blue','red']);
+
 var svg = d3.select('body').append('svg').attr('height',900).attr('width',1000).style('fill','none');
 var deck = svg.append('g').attr('id','deck');
 var inPlay = svg.append('g').attr('id','inPlay');
@@ -12,7 +14,6 @@ var stackG;
 for (var i=0;i<cards.length;i++){
   for (var s=0;s<suits.length;s++){
     deckList.push({'value':cards[i],'suit':suits[s]});
-
   }
   deck.selectAll('.card').data(deckList).enter().append('rect').attr('class','card')
     .attr('d',function(d){
@@ -21,7 +22,7 @@ for (var i=0;i<cards.length;i++){
     .attr('num', function(d){
       return d.value;
     })
-    .style('fill','blue').style('height','200px').style('width','150px');
+    .style('fill',function(d){return colors(d.value)}).style('height','200px').style('width','150px');
 }
 
 function shuffle(){
@@ -97,7 +98,7 @@ function play(plays){
   }
   //move append contents of inPlay to winning stack
   inPlay.selectAll('.inPlay').attr('class','card').attr('stack',winner)
-    .transition().duration(500).delay(function(){return i*50})
+    .transition().duration(300).delay(function(){return i*50})
     .attr('transform', function(){
       var x = (winner==0)?50:500;
       var y = 400;
@@ -117,9 +118,8 @@ function play(plays){
 
     burnPile.selectAll('.card')
       .each(function(d,i){
-        console.log(winner);
         d3.select(this)
-          .transition().duration(300).delay(function() { return i * 50; })
+          .transition().duration(300).delay(function() { return 300 + (i * 50); })
           .attr('transform',function(){
             var x = (winner==0)?50:500;
             var y = 400;
@@ -196,6 +196,13 @@ function getBurnCounts(){
   }
   return burns;
 }
+
+function playRound(){
+  var plays = getCards();
+  play(plays);
+}
+
+d3.select('button').on("click", playRound);
 
 shuffle()
 shuffle()
