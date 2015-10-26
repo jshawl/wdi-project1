@@ -72,11 +72,18 @@ function getCards(){
   var p1 = stacks[0].stack.splice(0,1)[0];
   var p2 = stacks[1].stack.splice(0,1)[0];
 
-  d3.select('.card[stack="0"]').attr('class','card inPlay').transition().duration(300)
+  var play0 = d3.select('.p0').select('.card').attr('class','card inPlay').transition().duration(300)
     .attr('transform','translate(200,200)');
 
-  d3.select('.card[stack="1"]').attr('class','card inPlay').transition().duration(300)
+  var play1 = d3.select('.p1').select('.card').attr('class','card inPlay').transition().duration(300)
     .attr('transform','translate(350,200)');
+
+  d3.selectAll('.inPlay').each(function(d,i){
+    var that = d3.select(this).remove();
+    inPlay.append(function(){
+      return that.node()
+    })
+  })
 
   return [p1,p2];
 }
@@ -103,12 +110,22 @@ function play(plays){
   }
 
   //move append contents of inPlay to winning stack
-  d3.selectAll('.inPlay').attr('stack',winner).transition().duration(500)
-    .attr('transform', function(){
-      var x = (winner==0)?50:500;
-      var y = 400;
-      return 'translate('+x+','+y+')';
+  d3.selectAll('.inPlay').each(function(d,i){
+    console.log(this);
+    d3.select(this)
+      .attr('stack',winner)
+      .transition().duration(300).delay(function() { return i * 50; })
+      .attr('transform', function(){
+        var x = (winner==0)?50:500;
+        var y = 400;
+        return 'translate('+x+','+y+')';
+      })
+
+    var that = d3.select(this).remove();
+    d3.select('.p'+winner).append(function(){
+      return that.node()
     })
+  })
 
   //if there's anything in the dump pile and there's a winner,
   //add contents of dump pile to winner's stack
