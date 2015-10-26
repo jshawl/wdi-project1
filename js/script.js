@@ -5,19 +5,34 @@ var deckList = [];
 var stacks = [];
 var dump = [];
 var pStacks;
-var burnPile = document.getElementById('burn');
-var inPlay = document.getElementById('inPlay');
-var deck = document.getElementById('deck');
+// var burnPile = document.getElementById('burn');
+// var inPlay = document.getElementById('inPlay');
+// var deck = document.getElementById('deck');
+
+var svg = d3.select('body').append('svg').attr('height',900).attr('width',1000).style('fill','none');
+var deck = svg.append('g').attr('id','deck');
+var inPlay = svg.append('g').attr('id','inPlay');
+var burnPile = svg.append('g').attr('id','burn');
+
 for (var i=0;i<cards.length;i++){
   for (var s=0;s<suits.length;s++){
     deckList.push({'value':cards[i],'suit':suits[s]});
-    var card = document.createElement('div');
-    card.className = 'card';
-    deck.appendChild(card);
+    // var card = document.createElement('div');
+    // card.className = 'card';
+    // deck.appendChild(card);
   }
+  deck.selectAll('.card').data(deckList).enter().append('rect').attr('class','card')
+    .style('fill','blue').style('height','200px').style('width','150px');
 }
 
 function shuffle(){
+  deck.selectAll('.card').sort(function(d){
+    return 0.5-Math.random();
+  })//.transition().
+}
+
+
+/*function shuffle(){
   //randomly places cards in front or behind one another;
   deckList.sort(function(){
     return 0.5 - Math.random();
@@ -131,3 +146,4 @@ function getBurnCounts(){
   }
   return burns;
 }
+*/
