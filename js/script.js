@@ -49,6 +49,8 @@ function deal(){
   pStacks = document.querySelectorAll('.stack');
   while (childCount > 0){
     for (var b=0;b<pStacks.length;b++){
+      var child = $(deck.children[0]);
+      var stack = $(pStacks[b]);
       pStacks[b].appendChild(deck.children[0]);
     }
     childCount = deck.childElementCount;
