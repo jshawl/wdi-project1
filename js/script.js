@@ -4,12 +4,29 @@ var suits = ['s','h','c','d'];
 var deckList = [];
 for (var i=0;i<cards.length;i++){
   for (var s=0;s<suits.length;s++){
-    var card = document.createElement('div');
-    card.className = 'card';
-    card.setAttribute('value', cards[i]);
-    card.setAttribute('suit', suits[s]);
-    deck.appendChild(card);
     deckList.push({'value':cards[i],'suit':suits[s]});
   }
 }
-console.log(deckList);
+
+function shuffle(){
+  //randomly places cards in front or behind one another;
+  deckList.sort(function(){
+    return 0.5 - Math.random();
+  })
+}
+
+function dealDeck(players){
+  //deal deck to X number of players;
+  var stackLength = deckList.length/players;
+  var stacks = [];
+  for (var i=0;i<players;i++){
+    var stack = {'player':i,'stack':[]};
+    stacks.push(stack);
+  }
+  for (var i=0;i<stackLength;i++){
+    for (var s=0;s<stacks.length;s++){
+      stacks[s].stack.push(deckList.pop());
+    }
+  }
+  return stacks;
+}
