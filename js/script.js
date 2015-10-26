@@ -22,13 +22,52 @@ for (var i=0;i<cards.length;i++){
     // deck.appendChild(card);
   }
   deck.selectAll('.card').data(deckList).enter().append('rect').attr('class','card')
+    .attr('d',function(d){
+      return d.value + d.suit;
+    })
     .style('fill','blue').style('height','200px').style('width','150px');
 }
 
 function shuffle(){
   deck.selectAll('.card').sort(function(d){
     return 0.5-Math.random();
-  })//.transition().
+  })
+}
+
+function dealDeck(players){
+  //deal deck to X number of players;
+  var stackLength = deckList.length/players;
+  for (var i=0;i<players;i++){
+    var stack = {'player':i,'stack':[]};
+    stacks.push(stack);
+  }
+  for (var i=0;i<stackLength;i++){
+    for (var s=0;s<stacks.length;s++){
+      stacks[s].stack.push(deckList.pop());
+    }
+  }
+  deal();
+}
+
+function deal(){
+  deck.selectAll('.card').each(function(d,i){
+    d3.select(this).transition().duration(300).delay(function() { return i * 50; })
+      .attr('transform',function(){
+        var x = (i%2==0)?50:500;
+        var y = 400;
+        return 'translate('+x+','+y+')';
+      })
+  })
+  //
+  // pStacks = svg.selectAll('.stack').data(stacks).enter().append('g');
+  // pStacks.each(function(d){
+  //   for (var i=0;i<d.stack.length;i++){
+  //     var cardVal = d.stack[i].value + d.stack[i].suit
+  //     deck.select('.card[d="'+cardVal+'"]').transition().duration(1000)
+  //       .attr('transform','translate(1000,200)')
+  //   }
+  //
+  // })
 }
 
 
