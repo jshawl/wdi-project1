@@ -1,11 +1,20 @@
 var cards = [2,3,4,5,6,7,8,9,10,11,12,13,14];
+var special = ['J','Q','K','A'];
 var suits = ['s','h','c','d'];
 var deckList = [];
 var stacks = [];
 var dump = [];
+var deck = document.getElementById('deck');
 for (var i=0;i<cards.length;i++){
   for (var s=0;s<suits.length;s++){
     deckList.push({'value':cards[i],'suit':suits[s]});
+    // var disp = (cards[i]-11 >= 0)?special[cards[i]-11]:cards[i];
+    var card = document.createElement('div');
+    card.className = 'card';
+    // card.setAttribute('suit',suits[s]);
+    // card.setAttribute('value',cards[i]);
+    // card.setAttribute('disp',disp);
+    deck.appendChild(card);
   }
 }
 
@@ -22,10 +31,25 @@ function dealDeck(players){
   for (var i=0;i<players;i++){
     var stack = {'player':i,'stack':[]};
     stacks.push(stack);
+
+    var pStack = document.createElement('div');
+    pStack.className = 'stack contain';
+    document.body.appendChild(pStack);
   }
   for (var i=0;i<stackLength;i++){
     for (var s=0;s<stacks.length;s++){
       stacks[s].stack.push(deckList.pop());
+    }
+  }
+  deal(players);
+}
+
+function deal(players){
+  var childCount = deck.childElementCount;
+  var pStacks = document.querySelectorAll('.stack');
+  for (var i=0;i<childCount;i++){
+    for (var b=0;b<players.length;b++){
+      pStacks[b].appendChild(deck.children[0]);
     }
   }
 }
@@ -64,22 +88,7 @@ function play(plays){
       stacks[winner].stack.push(dump.pop());
     }
   }
-
 }
-
-// function draw(){
-//   var burns = getBurnCounts();
-//   var dump1 = stacks[0].stack.splice(0,burns[0]);
-//   var dump2 = stacks[1].stack.splice(0,burns[1]);
-//   dump = (dump.length == 0)?dump1.concat(dump2):dump.concat(dump1).concat(dump2);
-//
-//   console.log(dump);
-//
-//   var winner = play(getCards());
-//   for (var i=0;i<dump.length;i++){
-//     stacks[winner].stack.push(dump[i]);
-//   }
-// }
 
 function burn(plays){
   var burns = getBurnCounts();
@@ -99,3 +108,17 @@ function getBurnCounts(){
   }
   return burns;
 }
+
+// function draw(){
+//   var burns = getBurnCounts();
+//   var dump1 = stacks[0].stack.splice(0,burns[0]);
+//   var dump2 = stacks[1].stack.splice(0,burns[1]);
+//   dump = (dump.length == 0)?dump1.concat(dump2):dump.concat(dump1).concat(dump2);
+//
+//   console.log(dump);
+//
+//   var winner = play(getCards());
+//   for (var i=0;i<dump.length;i++){
+//     stacks[winner].stack.push(dump[i]);
+//   }
+// }

@@ -1,6 +1,23 @@
-#deck{
-  height:400px;
-  width:300px;
+.card{
+  position:absolute;
+  height:100%;
+  width:100%;
   border:1px solid red;
   border-radius: 10px;
+}
+.contain{
+  position:relative;
+  margin:0 auto;
+  height:200px;
+  width:150px;
+}
+
+.stack{
+  float:left;
+  margin-left:50px;
+  position:relative;
+}
+.stack:last-of-type{
+  float:right;
+  margin-right:50px;
 }
