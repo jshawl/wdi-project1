@@ -1,4 +1,3 @@
-//var deck = document.getElementById('deck');
 var cards = [2,3,4,5,6,7,8,9,10,11,12,13,14];
 var suits = ['s','h','c','d'];
 var deckList = [];
@@ -32,17 +31,18 @@ function dealDeck(players){
 }
 
 function getCards(){
+  //get the top card from each stack
   var p1 = stacks[0].stack.splice(0,1)[0];
   var p2 = stacks[1].stack.splice(0,1)[0];
-  console.log(p1.value,p2.value);
   return [p1,p2];
 }
 
-//remove first item from array, if greater than add removed items to winner's array;
 function play(plays){
   var p1 = plays[0];
   var p2 = plays[1];
   var winner;
+  //compare results of getCards(). If one is greater than the other, add to
+  //end of winning stack
   if (p1.value > p2.value){
     stacks[0].stack.push(p1);
     stacks[0].stack.push(p2);
@@ -52,17 +52,19 @@ function play(plays){
     stacks[1].stack.push(p2);
     winner = 1;
   }else{
+    //if there's a tie, the cards played and three more cards each get added to the dump pile
+    //play again to see who gets them
     burn(plays);
     return;
   }
+  //if there's anything in the dump pile and there's a winner,
+  //add contents of dump pile to winner's stack
   if (dump.length>0 && winner){
     while (dump.length>0){
       stacks[winner].stack.push(dump.pop());
-      console.log(dump.length);
     }
   }
-  console.log(stacks[0].stack.length,stacks[1].stack.length, dump.length);
-  //return winner;
+
 }
 
 // function draw(){
@@ -83,13 +85,13 @@ function burn(plays){
   var burns = getBurnCounts();
   var dump1 = stacks[0].stack.splice(0,burns[0]);
   var dump2 = stacks[1].stack.splice(0,burns[1]);
-
   var theseBurns = plays.concat(dump1,dump2);
   dump = (dump.length == 0)?theseBurns:dump.concat(theseBurns);
-  console.log(dump,dump.length);
 }
 
 function getBurnCounts(){
+  //if you have fewer than three cards, returns the amount each player can
+  //burn and still play
   var burns = [];
   for (var i=0;i<stacks.length;i++){
     var burn = (stacks[i].stack.length>3)?3:stacks[i].stack.length - 1;
@@ -97,10 +99,3 @@ function getBurnCounts(){
   }
   return burns;
 }
-
-//let's not do this yet...
-// function playGame(){
-//   while (stacks[0].stack.length > 0 || stacks[1].stack.length >0){
-//     play(getCards());
-//   }
-// }
