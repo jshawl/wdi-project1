@@ -20,6 +20,9 @@ for (var i=0;i<cards.length;i++){
     .attr('d',function(d){
       return d.value + d.suit;
     })
+    .attr('num', function(d){
+      return d.value;
+    })
     .style('fill','blue').style('height','200px').style('width','150px');
 }
 
@@ -31,18 +34,7 @@ function shuffle(){
 
 function dealDeck(players){
   //deal deck to X number of players;
-  var stackLength = deckList.length/players;
-  for (var i=0;i<players;i++){
-    var stack = {'player':i,'stack':[]};
-    stacks.push(stack);
-  }
-  for (var i=0;i<stackLength;i++){
-    for (var s=0;s<stacks.length;s++){
-      stacks[s].stack.push(deckList.pop());
-    }
-  }
-
-  var stackG = svg.selectAll('.stack').data(stacks).enter().append('g')
+  var stackG = svg.selectAll('.stack').data(d3.range(players)).enter().append('g')
     .attr('class',function(d,i){return 'stack p'+i})
   deal();
 }
@@ -69,14 +61,18 @@ function deal(){
 
 function getCards(){
   //get the top card from each stack
-  var p1 = stacks[0].stack.splice(0,1)[0];
-  var p2 = stacks[1].stack.splice(0,1)[0];
+  var play0 = d3.select('.p0').select('.card').attr('class','card inPlay')
 
-  var play0 = d3.select('.p0').select('.card').attr('class','card inPlay').transition().duration(300)
+  play0.transition().duration(300)
     .attr('transform','translate(200,200)');
 
-  var play1 = d3.select('.p1').select('.card').attr('class','card inPlay').transition().duration(300)
+  var play1 = d3.select('.p1').select('.card').attr('class','card inPlay')
+
+  play1.transition().duration(300)
     .attr('transform','translate(350,200)');
+
+    var p1 = parseInt(play0.attr('num'));
+    var p2 = parseInt(play1.attr('num'));
 
   d3.selectAll('.inPlay').each(function(d,i){
     var that = d3.select(this).remove();
@@ -84,7 +80,6 @@ function getCards(){
       return that.node()
     })
   })
-
   return [p1,p2];
 }
 
@@ -94,38 +89,33 @@ function play(plays){
   var winner;
   //compare results of getCards(). If one is greater than the other, add to
   //end of winning stack
-  if (p1.value > p2.value){
-    stacks[0].stack.push(p1);
-    stacks[0].stack.push(p2);
+  if (p1 > p2){
     winner = 0;
-  }else if(p2.value > p1.value){
-    stacks[1].stack.push(p1);
-    stacks[1].stack.push(p2);
+  }else if(p2 > p1){
     winner = 1;
   }else{
     //if there's a tie, the cards played and three more cards each get added to the dump pile
     //play again to see who gets them
     //burn(plays);
-    //return;
+    return;
   }
-
   //move append contents of inPlay to winning stack
-  d3.selectAll('.inPlay').each(function(d,i){
-    console.log(this);
-    d3.select(this)
-      .attr('stack',winner)
-      .transition().duration(300).delay(function() { return i * 50; })
-      .attr('transform', function(){
-        var x = (winner==0)?50:500;
-        var y = 400;
-        return 'translate('+x+','+y+')';
-      })
-
-    var that = d3.select(this).remove();
-    d3.select('.p'+winner).append(function(){
-      return that.node()
+  inPlay.selectAll('.inPlay').attr('class','card').attr('stack',winner)
+    .transition().duration(500).delay(function(){return i*50})
+    .attr('transform', function(){
+      var x = (winner==0)?50:500;
+      var y = 400;
+      return 'translate('+x+','+y+')';
     })
-  })
+    .each("end",function(d,i){
+      var that = d3.select(this).remove();
+      d3.select('.p'+winner).append(function(){
+        return that.node();
+      })
+    })
+
+    console.log(document.querySelector('.p0').children.length,document.querySelector('.p1').children.length,
+    d3.selectAll('.card')[0].length);
 
   //if there's anything in the dump pile and there's a winner,
   //add contents of dump pile to winner's stack
@@ -136,6 +126,12 @@ function play(plays){
   //   }
   // }
 }
+
+shuffle()
+shuffle()
+shuffle()
+dealDeck(2);
+
 
 
 /*
