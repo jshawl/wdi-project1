@@ -139,7 +139,7 @@ function burn(plays){
   var dump1 = d3.select('.p0').selectAll('.card').filter(function(d,i){return i<burns[0]})
     .each(function(d,i){
       d3.select(this)
-        .transition().duration(300).delay(function() { return i * 50; })
+        .transition().duration(300).delay(function() { return 300 + (i * 50); })
         .attr('transform',function(){
           var x = 500;
           var y = 50;
@@ -155,7 +155,7 @@ function burn(plays){
   var dump2 = d3.select('.p1').selectAll('.card').filter(function(d,i){return i<burns[1]})
     .each(function(d,i){
       d3.select(this)
-        .transition().duration(300).delay(function() { return i * 50; })
+        .transition().duration(300).delay(function() { return 300 + (i * 50); })
         .attr('transform',function(){
           var x = 500;
           var y = 50;
@@ -171,7 +171,7 @@ function burn(plays){
     inPlay.selectAll('.inPlay').attr('class','card')
     .each(function(d,i){
       d3.select(this)
-        .transition().duration(300).delay(function() { return i * 50; })
+        .transition().duration(300).delay(function() { return 600+ (i * 50); })
         .attr('transform',function(){
           var x = 500;
           var y = 50;
