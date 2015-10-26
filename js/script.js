@@ -15,15 +15,19 @@ for (var i=0;i<cards.length;i++){
   for (var s=0;s<suits.length;s++){
     deckList.push({'value':cards[i],'suit':suits[s]});
   }
-  deck.selectAll('.card').data(deckList).enter().append('rect').attr('class','card')
-    .attr('d',function(d){
-      return d.value + d.suit;
-    })
-    .attr('num', function(d){
-      return d.value;
-    })
-    .style('fill',function(d){return colors(d.value)}).style('height','200px').style('width','150px');
 }
+var cards = deck.selectAll('.card').data(deckList).enter().append('svg:g').attr('class','card')
+  .attr('d',function(d){
+    return d.value + d.suit;
+  })
+  .attr('num', function(d){
+    return d.value;
+  })
+
+cards.append('rect')
+  .style('fill',function(d){return colors(d.value)}).style('height','200px').style('width','150px');
+cards.append('text').text(function(d){return d.suit+" "+d.value}).attr('transform','translate(20,50)')
+  .attr('fill','white');
 
 function shuffle(){
   deck.selectAll('.card').sort(function(d){
@@ -104,7 +108,7 @@ function play(plays){
       var y = 400;
       return 'translate('+x+','+y+')';
     })
-    .each("end",function(d,i){
+    .each(function(d,i){
       var that = d3.select(this).remove();
       d3.select('.p'+winner).append(function(){
         return that.node();
@@ -132,8 +136,7 @@ function play(plays){
       });
   }
 
-  //not sure why this isn't adding up to 52
-  //console.log(d3.select('.p0').selectAll('.card')[0].length,d3.select('.p1').selectAll('.card')[0].length);
+  console.log(d3.select('.p0').selectAll('.card')[0].length,d3.select('.p1').selectAll('.card')[0].length);
 }
 
 function burn(plays){
