@@ -5,9 +5,6 @@ var deckList = [];
 var stacks = [];
 var dump = [];
 var pStacks;
-// var burnPile = document.getElementById('burn');
-// var inPlay = document.getElementById('inPlay');
-// var deck = document.getElementById('deck');
 
 var svg = d3.select('body').append('svg').attr('height',900).attr('width',1000).style('fill','none');
 var deck = svg.append('g').attr('id','deck');
@@ -17,9 +14,7 @@ var burnPile = svg.append('g').attr('id','burn');
 for (var i=0;i<cards.length;i++){
   for (var s=0;s<suits.length;s++){
     deckList.push({'value':cards[i],'suit':suits[s]});
-    // var card = document.createElement('div');
-    // card.className = 'card';
-    // deck.appendChild(card);
+
   }
   deck.selectAll('.card').data(deckList).enter().append('rect').attr('class','card')
     .attr('d',function(d){
@@ -51,27 +46,81 @@ function dealDeck(players){
 
 function deal(){
   deck.selectAll('.card').each(function(d,i){
-    d3.select(this).transition().duration(300).delay(function() { return i * 50; })
+    d3.select(this)
+      .attr('stack',i%2)
+      .transition().duration(300).delay(function() { return i * 50; })
       .attr('transform',function(){
         var x = (i%2==0)?50:500;
         var y = 400;
         return 'translate('+x+','+y+')';
       })
   })
-  //
-  // pStacks = svg.selectAll('.stack').data(stacks).enter().append('g');
-  // pStacks.each(function(d){
-  //   for (var i=0;i<d.stack.length;i++){
-  //     var cardVal = d.stack[i].value + d.stack[i].suit
-  //     deck.select('.card[d="'+cardVal+'"]').transition().duration(1000)
-  //       .attr('transform','translate(1000,200)')
+}
+
+function getCards(){
+  //get the top card from each stack
+  var p1 = stacks[0].stack.splice(0,1)[0];
+  var p2 = stacks[1].stack.splice(0,1)[0];
+
+  d3.select('.card[stack="0"]').attr('class','card inPlay').transition().duration(300)
+    .attr('transform','translate(200,200)');
+
+  d3.select('.card[stack="1"]').attr('class','card inPlay').transition().duration(300)
+    .attr('transform','translate(350,200)');
+
+  return [p1,p2];
+}
+
+function play(plays){
+  var p1 = plays[0];
+  var p2 = plays[1];
+  var winner;
+  //compare results of getCards(). If one is greater than the other, add to
+  //end of winning stack
+  if (p1.value > p2.value){
+    stacks[0].stack.push(p1);
+    stacks[0].stack.push(p2);
+    winner = 0;
+  }else if(p2.value > p1.value){
+    stacks[1].stack.push(p1);
+    stacks[1].stack.push(p2);
+    winner = 1;
+  }else{
+    //if there's a tie, the cards played and three more cards each get added to the dump pile
+    //play again to see who gets them
+    //burn(plays);
+    //return;
+  }
+
+  //move append contents of inPlay to winning stack
+  d3.selectAll('.inPlay').attr('stack',winner).transition().duration(500)
+    .attr('transform', function(){
+      var x = (winner==0)?50:500;
+      var y = 400;
+      return 'translate('+x+','+y+')';
+    })
+
+  //if there's anything in the dump pile and there's a winner,
+  //add contents of dump pile to winner's stack
+  // if (dump.length>0 && winner){
+  //   while (dump.length>0){
+  //     stacks[winner].stack.push(dump.pop());
+  //     pStacks[winner].appendChild(burnPile.children[0]);
   //   }
-  //
-  // })
+  // }
 }
 
 
-/*function shuffle(){
+/*
+// var burnPile = document.getElementById('burn');
+// var inPlay = document.getElementById('inPlay');
+// var deck = document.getElementById('deck');
+
+// var card = document.createElement('div');
+// card.className = 'card';
+// deck.appendChild(card);
+
+function shuffle(){
   //randomly places cards in front or behind one another;
   deckList.sort(function(){
     return 0.5 - Math.random();
