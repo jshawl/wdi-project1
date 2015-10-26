@@ -1,6 +1,7 @@
 var cards = [2,3,4,5,6,7,8,9,10,11,12,13,14];
 var special = ['J','Q','K','A'];
 var suits = ['s','h','c','d'];
+var unicodes = {s:"\u2660",h:"\u2665",c:"\u2663",d:"\u2666"}
 var deckList = [];
 
 var colors = d3.scale.linear().domain([2,8,14]).range(['blue','green','red']);
@@ -25,9 +26,15 @@ var cards = deck.selectAll('.card').data(deckList).enter().append('svg:g').attr(
   })
 
 cards.append('rect')
-  .style('fill',function(d){return colors(d.value)}).style('height','200px').style('width','150px');
-cards.append('text').text(function(d){return d.suit+" "+d.value}).attr('transform','translate(20,50)')
-  .attr('fill','white');
+  .style('height','200px').style('width','150px').style('stroke-width',3)
+  .attr('stroke',function(d){return (d.suit == 'h'||d.suit == 'd')?'red':'black'});
+cards.append('text')
+  .text(function(d){
+    var uni = unicodes[d.suit];
+    var number = (d.value>10)?special[d.value-11]:d.value;
+    return uni+number})
+  .attr('transform','translate(20,50)')
+  .attr('fill',function(d){return (d.suit == 'h'||d.suit == 'd')?'red':'black'});
 
 function shuffle(){
   deck.selectAll('.card').sort(function(d){
