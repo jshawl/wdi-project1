@@ -10,6 +10,7 @@ var svg = d3.select('body').append('svg').attr('height',900).attr('width',1000).
 var deck = svg.append('g').attr('id','deck');
 var inPlay = svg.append('g').attr('id','inPlay');
 var burnPile = svg.append('g').attr('id','burn');
+var stackG;
 
 for (var i=0;i<cards.length;i++){
   for (var s=0;s<suits.length;s++){
@@ -34,7 +35,7 @@ function shuffle(){
 
 function dealDeck(players){
   //deal deck to X number of players;
-  var stackG = svg.selectAll('.stack').data(d3.range(players)).enter().append('g')
+  stackG = svg.selectAll('.stack').data(d3.range(players)).enter().append('g')
     .attr('class',function(d,i){return 'stack p'+i})
   deal();
 }
@@ -126,6 +127,44 @@ function play(plays){
   //   }
   // }
 }
+
+function burn(plays){
+  var burns = getBurnCounts();
+  // console.log(burns);
+  //
+  // for (var i=0;i<burns[0];i++){
+  //
+  // }
+  //remove cards to burn into theseBurns array
+  //var dump1 = stacks[0].stack.splice(0,burns[0]);
+  //var dump2 = stacks[1].stack.splice(0,burns[1]);
+  //var theseBurns = plays.concat(dump1,dump2);
+  //if nothing in dump, make dump = theseBurns, else add theseBurns to existing dump
+  dump = (dump.length == 0)?theseBurns:dump.concat(theseBurns);
+
+  for (var i=0;i<burns.length;i++){
+    for (var b=0;b<burns[i];b++){
+      burnPile.appendChild(pStacks[i].children[0]);
+    }
+  }
+  //put cards in inPlay into burnPile
+  burnPile.appendChild(inPlay.children[0]);
+  burnPile.appendChild(inPlay.children[0]);
+}
+
+function getBurnCounts(){
+  //if you have fewer than three cards, returns the amount
+  //each player can burn and still be able to play
+  var burns = [];
+  for (var i=0;i<stackG[0].length;i++){
+    var stackLength = d3.select('.p'+i).selectAll('.card')[0].length;
+    var burn = (stackLength>3)?3:stackLength - 1;
+    burns.push(burn);
+  }
+
+  return burns;
+}
+
 
 shuffle()
 shuffle()
