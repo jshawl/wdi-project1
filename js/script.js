@@ -4,16 +4,15 @@ var suits = ['s','h','c','d'];
 var deckList = [];
 var stacks = [];
 var dump = [];
+var pStacks;
+var burnPile = document.getElementById('burn');
+var inPlay = document.getElementById('inPlay');
 var deck = document.getElementById('deck');
 for (var i=0;i<cards.length;i++){
   for (var s=0;s<suits.length;s++){
     deckList.push({'value':cards[i],'suit':suits[s]});
-    // var disp = (cards[i]-11 >= 0)?special[cards[i]-11]:cards[i];
     var card = document.createElement('div');
     card.className = 'card';
-    // card.setAttribute('suit',suits[s]);
-    // card.setAttribute('value',cards[i]);
-    // card.setAttribute('disp',disp);
     deck.appendChild(card);
   }
 }
@@ -41,16 +40,17 @@ function dealDeck(players){
       stacks[s].stack.push(deckList.pop());
     }
   }
-  deal(players);
+  deal();
 }
 
-function deal(players){
+function deal(){
   var childCount = deck.childElementCount;
-  var pStacks = document.querySelectorAll('.stack');
-  for (var i=0;i<childCount;i++){
-    for (var b=0;b<players.length;b++){
+  pStacks = document.querySelectorAll('.stack');
+  while (childCount > 0){
+    for (var b=0;b<pStacks.length;b++){
       pStacks[b].appendChild(deck.children[0]);
     }
+    childCount = deck.childElementCount;
   }
 }
 
@@ -58,6 +58,11 @@ function getCards(){
   //get the top card from each stack
   var p1 = stacks[0].stack.splice(0,1)[0];
   var p2 = stacks[1].stack.splice(0,1)[0];
+
+  for (var b=0;b<pStacks.length;b++){
+    inPlay.appendChild(pStacks[b].children[0]);
+  }
+
   return [p1,p2];
 }
 
@@ -81,11 +86,17 @@ function play(plays){
     burn(plays);
     return;
   }
+
+  //move append contents of inPlay to winning stack
+  pStacks[winner].appendChild(inPlay.children[0]);
+  pStacks[winner].appendChild(inPlay.children[0]);
+
   //if there's anything in the dump pile and there's a winner,
   //add contents of dump pile to winner's stack
   if (dump.length>0 && winner){
     while (dump.length>0){
       stacks[winner].stack.push(dump.pop());
+      pStacks[winner].appendChild(burnPile.children[0]);
     }
   }
 }
@@ -96,6 +107,16 @@ function burn(plays){
   var dump2 = stacks[1].stack.splice(0,burns[1]);
   var theseBurns = plays.concat(dump1,dump2);
   dump = (dump.length == 0)?theseBurns:dump.concat(theseBurns);
+
+  for (var i=0;i<burns.length;i++){
+    for (var b=0;b<burns[i];b++){
+      burnPile.appendChild(pStacks[i].children[0])
+    }
+  }
+
+  for (var i=0;i<inPlay.children.length;i++){
+    burnPile.appendChild(inPlay.children[0])
+  }
 }
 
 function getBurnCounts(){
