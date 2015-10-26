@@ -3,7 +3,7 @@ var special = ['J','Q','K','A'];
 var suits = ['s','h','c','d'];
 var deckList = [];
 
-var colors = d3.scale.linear().domain([2,14]).range(['blue','red']);
+var colors = d3.scale.linear().domain([2,8,14]).range(['blue','green','red']);
 
 var svg = d3.select('body').append('svg').attr('height',900).attr('width',1000).style('fill','none');
 var deck = svg.append('g').attr('id','deck');
@@ -115,7 +115,6 @@ function play(plays){
   //add contents of dump pile to winner's stack
   var dumpLen = burnPile.selectAll('.card')[0].length;
   if (dumpLen>0 && winner>=0){
-
     burnPile.selectAll('.card')
       .each(function(d,i){
         d3.select(this)
@@ -132,6 +131,9 @@ function play(plays){
         })
       });
   }
+
+  //not sure why this isn't adding up to 52
+  //console.log(d3.select('.p0').selectAll('.card')[0].length,d3.select('.p1').selectAll('.card')[0].length);
 }
 
 function burn(plays){
@@ -168,7 +170,7 @@ function burn(plays){
       })
     });
 
-    inPlay.selectAll('.inPlay').attr('class','card')
+  inPlay.selectAll('.inPlay').attr('class','card')
     .each(function(d,i){
       d3.select(this)
         .transition().duration(300).delay(function() { return 600+ (i * 50); })
@@ -200,6 +202,10 @@ function getBurnCounts(){
 function playRound(){
   var plays = getCards();
   play(plays);
+}
+
+function reset(){
+
 }
 
 d3.select('button').on("click", playRound);
