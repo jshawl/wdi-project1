@@ -44,6 +44,7 @@ function dealDeck(players){
 }
 
 function deal(){
+  //deal actual cards to each stack
   var childCount = deck.childElementCount;
   pStacks = document.querySelectorAll('.stack');
   while (childCount > 0){
@@ -103,25 +104,26 @@ function play(plays){
 
 function burn(plays){
   var burns = getBurnCounts();
+  //remove cards to burn into theseBurns array
   var dump1 = stacks[0].stack.splice(0,burns[0]);
   var dump2 = stacks[1].stack.splice(0,burns[1]);
   var theseBurns = plays.concat(dump1,dump2);
+  //if nothing in dump, make dump = theseBurns, else add theseBurns to existing dump
   dump = (dump.length == 0)?theseBurns:dump.concat(theseBurns);
 
   for (var i=0;i<burns.length;i++){
     for (var b=0;b<burns[i];b++){
-      burnPile.appendChild(pStacks[i].children[0])
+      burnPile.appendChild(pStacks[i].children[0]);
     }
   }
-
-  for (var i=0;i<inPlay.children.length;i++){
-    burnPile.appendChild(inPlay.children[0])
-  }
+  //put cards in inPlay into burnPile
+  burnPile.appendChild(inPlay.children[0]);
+  burnPile.appendChild(inPlay.children[0]);
 }
 
 function getBurnCounts(){
-  //if you have fewer than three cards, returns the amount each player can
-  //burn and still play
+  //if you have fewer than three cards, returns the amount
+  //each player can burn and still be able to play
   var burns = [];
   for (var i=0;i<stacks.length;i++){
     var burn = (stacks[i].stack.length>3)?3:stacks[i].stack.length - 1;
@@ -129,17 +131,3 @@ function getBurnCounts(){
   }
   return burns;
 }
-
-// function draw(){
-//   var burns = getBurnCounts();
-//   var dump1 = stacks[0].stack.splice(0,burns[0]);
-//   var dump2 = stacks[1].stack.splice(0,burns[1]);
-//   dump = (dump.length == 0)?dump1.concat(dump2):dump.concat(dump1).concat(dump2);
-//
-//   console.log(dump);
-//
-//   var winner = play(getCards());
-//   for (var i=0;i<dump.length;i++){
-//     stacks[winner].stack.push(dump[i]);
-//   }
-// }
