@@ -1,31 +1,29 @@
 body{
   background-image:url(../assets/green.png);
 }
-.card{
-  position:absolute;
-  height:200px;
-  width:150px;
-  border:1px solid red;
-  border-radius: 10px;
+svg{
+  fill:none;
 }
-.contain{
-  position:relative;
-  margin:0 auto;
-  height:200px;
-  width:150px;
+.card text{
+  fill:red;
+  font-size:72px;
+  text-anchor:middle;
+  width:200px;
 }
-.stack{
-  float:left;
-  margin-left:50px;
-  position:relative;
+.card[suit='s'] text,.card[suit='c'] text{
+  fill:black;
 }
-.stack:last-of-type{
-  float:right;
-  margin-right:50px;
+.card .front{
+  fill:white;
+}
+.card .back{
+  fill: url('#cardBg');
 }
 rect{
   rx:10;
   ry:10;
+  height:200px;
+  width:150px;
 }
 button{
   position:absolute;

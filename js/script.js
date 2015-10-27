@@ -19,18 +19,19 @@ var war = {
     return deckList;
   },
   buildComponents:function(){
-    this.components.svg = d3.select('body').append('svg');//.attr('height',900).attr('width',1000).style('fill','none')
+    this.components.svg = d3.select('body').append('svg').attr('height',900).attr('width',1000);
     this.components.deck = this.components.svg.append('g').attr('id','deck');
     this.components.inPlay = this.components.svg.append('g').attr('id','inPlay');
     this.components.burnPile = this.components.svg.append('g').attr('id','burn');
-    this.components.cardBG = this.components.svg.append('defs').append('pattern').attr('id','cardBg');
-    this.components.cardBG_img = this.components.cardBG.append('image');
+    this.components.cardBG = this.components.svg.append('defs').append('pattern').attr('id','cardBg').attr('patternUnits','userSpaceOnUse').attr('width',100).attr('height',100);
+    this.components.cardBG_img = this.components.cardBG.append('image').append('image').attr('xlink:href','assets/skulls.png').attr('x',0).attr('y',0)
+     .attr('width',100).attr('height',100);
   },
   components:{},
   buildCards:function(){
     var cards = this.components.deck.selectAll('.card').data(this.buildDeck())
       .enter().append('g').attr('class','card')
-      .attr('d', function(d){return d.value + d.suit})
+      .attr('suit', function(d){return d.suit})
       .attr('num',function(d){return d.value});
 
     cards.append('rect').attr('class','front');
@@ -43,7 +44,6 @@ var war = {
 
     return cards;
   }
-
 }
 
 war.buildComponents();
