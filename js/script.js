@@ -49,44 +49,72 @@ var war = {
     deck.selectAll('.card').sort(function(d){
       return 0.5-Math.random();
     })
-  }
+  },
+  dealDeck:function(players){
+    this.components.stackG = this.components.svg.selectAll('.stack')
+      .data(d3.range(players));
+    this.components.stackG.enter().append('g')
+      .attr('class',function(d,i){return 'stack p'+i});
+    this.components.stackG.exit().remove();
+  },
+  
+  // function deal(){
+  //   deck.selectAll('.card').each(function(d,i){
+  //     var stackNum = i%2;
+  //
+  //     // replace below with CSS animation
+  //     d3.select(this)
+  //       .attr('stack',stackNum)
+  //       .transition().duration(300).delay(function() { return i * 50; })
+  //       .attr('transform',function(){
+  //         var x = (i%2==0)?50:500;
+  //         var y = 400;
+  //         return 'translate('+x+','+y+')';
+  //       })
+  //       // to here
+  //
+  //     var that = d3.select(this).remove();
+  //     d3.select('.p'+stackNum).append(function(){
+  //       return that.node()
+  //     })
+  //   })
+  // }
 }
 
 war.buildComponents();
 war.buildCards();
-
 d3.select('#shuffle').on('click',function(){
   war.shuffle(war.components.deck)
 });
+//
+// function dealDeck(players){
+//   //deal deck to X number of players;
+//   stackG = svg.selectAll('.stack').data(d3.range(players)).enter().append('g')
+//     .attr('class',function(d,i){return 'stack p'+i})
+//   deal();
+// }
 
-function dealDeck(players){
-  //deal deck to X number of players;
-  stackG = svg.selectAll('.stack').data(d3.range(players)).enter().append('g')
-    .attr('class',function(d,i){return 'stack p'+i})
-  deal();
-}
-
-function deal(){
-  deck.selectAll('.card').each(function(d,i){
-    var stackNum = i%2;
-
-    // replace below with CSS animation
-    d3.select(this)
-      .attr('stack',stackNum)
-      .transition().duration(300).delay(function() { return i * 50; })
-      .attr('transform',function(){
-        var x = (i%2==0)?50:500;
-        var y = 400;
-        return 'translate('+x+','+y+')';
-      })
-      // to here
-
-    var that = d3.select(this).remove();
-    d3.select('.p'+stackNum).append(function(){
-      return that.node()
-    })
-  })
-}
+// function deal(){
+//   deck.selectAll('.card').each(function(d,i){
+//     var stackNum = i%2;
+//
+//     // replace below with CSS animation
+//     d3.select(this)
+//       .attr('stack',stackNum)
+//       .transition().duration(300).delay(function() { return i * 50; })
+//       .attr('transform',function(){
+//         var x = (i%2==0)?50:500;
+//         var y = 400;
+//         return 'translate('+x+','+y+')';
+//       })
+//       // to here
+//
+//     var that = d3.select(this).remove();
+//     d3.select('.p'+stackNum).append(function(){
+//       return that.node()
+//     })
+//   })
+// }
 
 function getCards(){
   //get the top card from each stack
