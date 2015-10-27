@@ -84,8 +84,9 @@ var war = {
     var playArr = [];
     var inPlay = this.components.inPlay;
     var plays = this.components.stackG.each(function(d,i){
-      var play = d3.select(this).select('.card').attr('class','card inPlay');
+      var play = d3.select(this).select('.card')
       var p = parseInt(play.attr('num'));
+      play.transition().delay(200).attr('class','card inPlay');
       playArr.push(p);
 
       var that = play.remove();
