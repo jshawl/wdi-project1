@@ -1,5 +1,7 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
 body{
   background-image:url(../assets/green.png);
+  font-family:'Montserrat','arial',sans-serif;
 }
 svg{
   fill:none;
@@ -8,7 +10,7 @@ svg{
   fill:red;
   font-size:72px;
   text-anchor:middle;
-  transform:translate(75px,75px);
+  transform:translate(75px,110px);
 }
 .card[suit='s'] text,.card[suit='c'] text{
   fill:black;
@@ -20,9 +22,6 @@ svg{
   stroke:gray;
   stroke-width:2px;
 }
-.card.inPlay .back{
-  opacity:0;
-}
 rect{
   rx:10;
   ry:10;
@@ -30,16 +29,10 @@ rect{
   width:150px;
 }
 button{
-  position:absolute;
-  top:10px;
-  left:300px;
-}
-#shuffle{
-  left:180px;
-}
-#deal{
-  left:250px;
-}
-#reset{
-  left:350px;
+  display:inline-block;
+  width:auto;
+  height:50px;
+  font-size:32px;
+  border-radius:10px;
+  font-family:'Montserrat','arial',sans-serif;
 }

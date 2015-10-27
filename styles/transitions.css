@@ -36,6 +36,18 @@
 .card.inPlay .back{
   opacity:0;
 }
+/*.shuffling .card{
+  -webkit-transform: rotate(720deg);
+  -moz-transform: rotate(720deg);
+  -o-transform: rotate(720deg);
+  -ms-transform: rotate(720deg);
+  transform: rotate(720deg);
+  -webkit-transform-origin: center;
+  -moz-transform-origin: center;
+  -o-transform-origin: center;
+  -ms-transform-origin: center;
+  transform-origin: center;
+}*/
 .card.burn{
   -webkit-transform: translate(650px,50px);
   -moz-transform: translate(650px,50px);
