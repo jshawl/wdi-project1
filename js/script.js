@@ -61,14 +61,7 @@ var war = {
   deal:function(){
     this.components.deck.selectAll('.card').each(function(d,i){
       var stackNum = i%2;//need to use number of players here
-      d3.select(this).attr('stack',stackNum);
-      //trying this in css transitions//
-        // .transition().duration(300).delay(function() { return i * 50; })
-        // .attr('transform',function(){
-        //   var x = (i%2==0)?50:500;
-        //   var y = 400;
-        //   return 'translate('+x+','+y+')';
-        // })
+      d3.select(this).transition().delay(50*i).attr('stack',stackNum);
       var that = d3.select(this).remove();
       d3.select('.p'+stackNum).append(function(){
         return that.node();

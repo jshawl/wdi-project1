@@ -16,12 +16,12 @@ svg{
 .card .front{
   fill:white;
 }
-.card{
+/*.card{
   -webkit-transition: 2s ease-in-out;
   -moz-transition: 2s ease-in-out;
   -o-transition: 2s ease-in-out;
   transition: 2s ease-in-out;
-}
+}*/
 rect{
   rx:10;
   ry:10;
@@ -37,15 +37,15 @@ rect{
 }*/
 .card[stack='0']{
   -webkit-animation-name: stack0; /* Chrome, Safari, Opera */
-  -webkit-animation-duration: 1s; /* Chrome, Safari, Opera */
+  -webkit-animation-duration: 0.3s; /* Chrome, Safari, Opera */
   animation-name: stack0;
-  animation-duration: 1s;
+  animation-duration: 0.3s;
 }
 .card[stack='1']{
   -webkit-animation-name: stack1; /* Chrome, Safari, Opera */
-  -webkit-animation-duration: 1s; /* Chrome, Safari, Opera */
+  -webkit-animation-duration: 0.3s; /* Chrome, Safari, Opera */
   animation-name: stack1;
-  animation-duration: 1s;
+  animation-duration: 0.3s;
 }
 
 .stack{
