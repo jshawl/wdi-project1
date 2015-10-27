@@ -23,9 +23,11 @@ var war = {
     this.components.deck = this.components.svg.append('g').attr('id','deck');
     this.components.inPlay = this.components.svg.append('g').attr('id','inPlay');
     this.components.burnPile = this.components.svg.append('g').attr('id','burn');
-    this.components.cardBG = this.components.svg.append('defs').append('pattern').attr('id','cardBg').attr('patternUnits','userSpaceOnUse').attr('width',100).attr('height',100);
-    this.components.cardBG_img = this.components.cardBG.append('image').append('image').attr('xlink:href','assets/skulls.png').attr('x',0).attr('y',0)
-     .attr('width',100).attr('height',100);
+    this.components.cardBG = this.components.svg.append('defs')
+      .append('pattern').attr('id','cardBg').attr('patternUnits','userSpaceOnUse')
+        .attr('width',100).attr('height',100)
+      .append('image').attr('xlink:href','assets/skulls.png')
+        .attr('x',0).attr('y',0).attr('width',100).attr('height',100);
   },
   components:{},
   buildCards:function(){
@@ -40,57 +42,22 @@ var war = {
         var uni = d.unicode;
         var number = d.display;
         return uni+number})
-    cards.append('rect').attr('class','back');
-
+    cards.append('rect').attr('class','back').attr('fill','url(#cardBg)');
     return cards;
+  },
+  shuffle:function(deck){
+    deck.selectAll('.card').sort(function(d){
+      return 0.5-Math.random();
+    })
   }
 }
 
 war.buildComponents();
 war.buildCards();
 
-
-//var deckList = [];
-
-// all code above should have a single interface
-
-// var inPlay = svg.append('g').attr('id','inPlay');
-// var burnPile = svg.append('g').attr('id','burn');
-//var stackG;
-
-// var cardBg = svg.append('defs').append('pattern').attr('id','cardBg')
-//   .attr('patternUnits','userSpaceOnUse').attr('width',100).attr('height',100)
-//   .append('image').attr('xlink:href','assets/skulls.png').attr('x',0).attr('y',0)
-//   .attr('width',100).attr('height',100);
-
-
-// var cards = war.components.deck.selectAll('.card').data(war.buildDeck()).enter().append('svg:g').attr('class','card')
-//   .attr('d',function(d){
-//     return d.value + d.suit;
-//   })
-//   .attr('num', function(d){
-//     return d.value;
-//   })
-
-// cards.append('rect').attr('class','front').style('fill','white')
-//   .style('height','200px').style('width','150px').style('stroke-width',3).style('stroke','none')
-// cards.append('text')
-//   .text(function(d){
-//     var uni = d.unicode;//unicodes[d.suit];
-//     var number = d.display;//(d.value>10)?special[d.value-11]:d.value;
-//     return uni+number})
-//   .attr('transform','translate(75,100)')
-//   .attr('text-anchor','middle').style('font-size','72px')
-//   .attr('fill',function(d){return (d.suit == 'h'||d.suit == 'd')?'red':'black'});
-// cards.append('rect').attr('class','back')
-//   .style('height','200px').style('width','150px').style('stroke-width',3)
-//   .attr('fill','url(#cardBg)').attr('stroke','gray');
-
-function shuffle(){
-  deck.selectAll('.card').sort(function(d){
-    return 0.5-Math.random();
-  })
-}
+d3.select('#shuffle').on('click',function(){
+  war.shuffle(war.components.deck)
+});
 
 function dealDeck(players){
   //deal deck to X number of players;
@@ -282,14 +249,9 @@ function reset(){
   })
 }
 
-d3.select('#play').on('click', playRound);
-d3.select('#shuffle').on('click',shuffle);
-d3.select('#reset').on('click',reset);
-d3.select('#deal').on('click', function(){
-  dealDeck(2);
-});
+//d3.select('#play').on('click', playRound);
 
-// shuffle()
-// shuffle()
-// shuffle()
-// dealDeck(2);
+// d3.select('#reset').on('click',reset);
+// d3.select('#deal').on('click', function(){
+//   dealDeck(2);
+// });

@@ -16,9 +16,6 @@ svg{
 .card .front{
   fill:white;
 }
-.card .back{
-  fill: url('#cardBg');
-}
 rect{
   rx:10;
   ry:10;
