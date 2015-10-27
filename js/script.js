@@ -1,3 +1,9 @@
+// still to do:
+// make shuffling actually shuffle deck
+// clean up animations
+// maybe add analysis, look at score, history trending up/down
+//
+
 var war = {
   buildDeck: function(){
     var cards = [2,3,4,5,6,7,8,9,10,11,12,13,14];
