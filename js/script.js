@@ -1,4 +1,3 @@
-// try to have one global variable
 var war = {
   buildDeck: function(){
     var cards = [2,3,4,5,6,7,8,9,10,11,12,13,14];
@@ -61,10 +60,8 @@ var war = {
   },
   deal:function(){
     this.components.deck.selectAll('.card').each(function(d,i){
-      var stackNum = i%2;
-
+      var stackNum = i%2;//need to use number of players here
       d3.select(this).attr('stack',stackNum);
-
       //trying this in css transitions//
         // .transition().duration(300).delay(function() { return i * 50; })
         // .attr('transform',function(){
@@ -72,7 +69,6 @@ var war = {
         //   var y = 400;
         //   return 'translate('+x+','+y+')';
         // })
-
       var that = d3.select(this).remove();
       d3.select('.p'+stackNum).append(function(){
         return that.node();
@@ -82,19 +78,15 @@ var war = {
   getPlays:function (){
     var playArr = [];
     var inPlay = this.components.inPlay;
-
     //gotta get this in css animation//
     // play0.transition().duration(300)
     //   .attr('transform','translate(195,200)');
-    //
     // play1.transition().duration(300)
     //   .attr('transform','translate(355,200)');
-    //
     // d3.selectAll('.inPlay').selectAll('.front').transition().duration(500)
     //   .style('fill','white');
     // d3.selectAll('.inPlay').selectAll('.back').transition().duration(500)
     //   .style('opacity',0);
-
     var plays = this.components.stackG.each(function(d,i){
       var play = d3.select(this).select('.card').attr('class','card inPlay')
       var p = parseInt(play.attr('num'));
@@ -119,16 +111,50 @@ var war = {
       return;
     }
     this.giveWinner(winner);
-    //this.checkPile(winner);
+    var burnLength = this.components.burnPile.selectAll('.card')[0].length;
+    if (burnLength>0){
+      this.giveWinnerBurn(winner);
+    }
     return winner;
   },
   burn:function(plays){
     var burnCounts = this.getBurnCounts();
-    console.log(burnCounts);
+    var burnPile = this.components.burnPile;
+    this.components.stackG.each(function(d,i){
+      var dump = d3.select(this).selectAll('.card').filter(function(e,j){return j<burnCounts[i]});
+      dump.each(function(f,k){
+        //do this in css
+        //     d3.select(this)
+        //       .transition().duration(300).delay(function() { return 300 + (i * 50); })
+        //       .attr('transform',function(){
+        //         var x = 500;
+        //         var y = 50;
+        //         return 'translate('+x+','+y+')';
+        //       })
+        var that = d3.select(this).remove();
+        burnPile.append(function(){
+          return that.node();
+        })
+      })
+    })
+
+    this.components.inPlay.selectAll('.card').attr('class','card')
+      .each(function(d,i){
+        // do this in css//
+        //     d3.select(this)
+        //       .transition().duration(300).delay(function() { return 600+ (i * 50); })
+        //       .attr('transform',function(){
+        //         var x = 500;
+        //         var y = 50;
+        //         return 'translate('+x+','+y+')';
+        //       }).select('.back').style('opacity',1)
+        var that = d3.select(this).remove();
+        burnPile.append(function(){
+          return that.node();
+        });
+      });
   },
   getBurnCounts:function(){
-    //if you have fewer than three cards, returns the amount
-    //each player can burn and still be able to play
     var burns = [];
     this.components.stackG.each(function(d,i){
       var len = d3.select(this).selectAll('.card')[0].length;
@@ -152,73 +178,37 @@ var war = {
         return that.node();
       })
     })//css animate too -- /.select('.back').style('opacity',1)
+  },
+  giveWinnerBurn:function(winner){
+    this.components.burnPile.selectAll('.card').each(function(d,i){
+      // do this in css
+      //         d3.select(this)
+      //           .transition().duration(300).delay(function() { return 300 + (i * 50); })
+      //           .attr('transform',function(){
+      //             var x = (winner==0)?50:500;
+      //             var y = 400;
+      //             return 'translate('+x+','+y+')';
+      //           })
+      var that = d3.select(this).remove();
+      d3.select('.p'+winner).append(function(){
+        return that.node();
+      });
+    });
+  },
+  resetDeck:function(){
+    var deck = this.components.deck;
+    this.components.svg.selectAll('.card').each(function(d,i){
+      //do in css
+      //   d3.select(this)
+      //     .transition().duration(300).delay(function() { return i * 50; })
+      //     .attr('transform','translate(75,100)')
+      var that = d3.select(this).remove();
+      deck.append(function(){
+        return that.node();
+      })
+    })
   }
 }
-
-/*
-function burn(plays){
-  var burns = getBurnCounts();
-  var dump1 = d3.select('.p0').selectAll('.card').filter(function(d,i){return i<burns[0]})
-    .each(function(d,i){
-      d3.select(this)
-        .transition().duration(300).delay(function() { return 300 + (i * 50); })
-        .attr('transform',function(){
-          var x = 500;
-          var y = 50;
-          return 'translate('+x+','+y+')';
-        })
-
-      var that = d3.select(this).remove();
-      burnPile.append(function(){
-        return that.node();
-      })
-    });
-
-  var dump2 = d3.select('.p1').selectAll('.card').filter(function(d,i){return i<burns[1]})
-    .each(function(d,i){
-      d3.select(this)
-        .transition().duration(300).delay(function() { return 300 + (i * 50); })
-        .attr('transform',function(){
-          var x = 500;
-          var y = 50;
-          return 'translate('+x+','+y+')';
-        })
-
-      var that = d3.select(this).remove();
-      burnPile.append(function(){
-        return that.node();
-      })
-    });
-
-  inPlay.selectAll('.inPlay').attr('class','card')
-    .each(function(d,i){
-      d3.select(this)
-        .transition().duration(300).delay(function() { return 600+ (i * 50); })
-        .attr('transform',function(){
-          var x = 500;
-          var y = 50;
-          return 'translate('+x+','+y+')';
-        }).select('.back').style('opacity',1)
-
-      var that = d3.select(this).remove();
-      burnPile.append(function(){
-        return that.node();
-      })
-    });
-}
-
-function getBurnCounts(){
-  //if you have fewer than three cards, returns the amount
-  //each player can burn and still be able to play
-  var burns = [];
-  for (var i=0;i<stackG[0].length;i++){
-    var stackLength = d3.select('.p'+i).selectAll('.card')[0].length;
-    var burn = (stackLength>3)?3:stackLength - 1;
-    burns.push(burn);
-  }
-  return burns;
-}*/
-
 war.buildComponents();
 war.buildCards();
 d3.select('#shuffle').on('click',function(){
@@ -231,142 +221,6 @@ d3.select('#play').on('click', function(){
   var plays = war.getPlays();
   war.playHand(plays);
 });
-
-// function play(plays){
-//   var p1 = plays[0];
-//   var p2 = plays[1];
-//   var winner;
-//   //compare results of getCards(). If one is greater than the other, add to
-//   //end of winning stack
-//   if (p1 > p2){
-//     winner = 0;
-//   }else if(p2 > p1){
-//     winner = 1;
-//   }else{
-//     //if there's a tie, the cards played and three more cards each get added to the dump pile
-//     //play again to see who gets them
-//     burn(plays);
-//     return;
-//   }
-//   //move append contents of inPlay to winning stack
-//   inPlay.selectAll('.inPlay').attr('class','card').attr('stack',winner)
-//     .transition().duration(300).delay(function(d,i){return i*50})
-//     .attr('transform', function(){
-//       var x = (winner==0)?50:500;
-//       var y = 400;
-//       return 'translate('+x+','+y+')';
-//     })
-//     .each(function(d,i){
-//       var that = d3.select(this).remove();
-//       d3.select('.p'+winner).append(function(){
-//         return that.node();
-//       })
-//     }).select('.back').style('opacity',1)
-//
-//   //if there's anything in the dump pile and there's a winner,
-//   //add contents of dump pile to winner's stack
-//   var dumpLen = burnPile.selectAll('.card')[0].length;
-//   if (dumpLen>0 && winner>=0){
-//     burnPile.selectAll('.card')
-//       .each(function(d,i){
-//         d3.select(this)
-//           .transition().duration(300).delay(function() { return 300 + (i * 50); })
-//           .attr('transform',function(){
-//             var x = (winner==0)?50:500;
-//             var y = 400;
-//             return 'translate('+x+','+y+')';
-//           })
-//
-//         var that = d3.select(this).remove();
-//         d3.select('.p'+winner).append(function(){
-//           return that.node();
-//         })
-//       });
-//   }
-//   console.log(d3.select('.p0').selectAll('.card')[0].length,d3.select('.p1').selectAll('.card')[0].length);
-// }
-
-// function burn(plays){
-//   var burns = getBurnCounts();
-//   var dump1 = d3.select('.p0').selectAll('.card').filter(function(d,i){return i<burns[0]})
-//     .each(function(d,i){
-//       d3.select(this)
-//         .transition().duration(300).delay(function() { return 300 + (i * 50); })
-//         .attr('transform',function(){
-//           var x = 500;
-//           var y = 50;
-//           return 'translate('+x+','+y+')';
-//         })
-//
-//       var that = d3.select(this).remove();
-//       burnPile.append(function(){
-//         return that.node();
-//       })
-//     });
-//
-//   var dump2 = d3.select('.p1').selectAll('.card').filter(function(d,i){return i<burns[1]})
-//     .each(function(d,i){
-//       d3.select(this)
-//         .transition().duration(300).delay(function() { return 300 + (i * 50); })
-//         .attr('transform',function(){
-//           var x = 500;
-//           var y = 50;
-//           return 'translate('+x+','+y+')';
-//         })
-//
-//       var that = d3.select(this).remove();
-//       burnPile.append(function(){
-//         return that.node();
-//       })
-//     });
-//
-//   inPlay.selectAll('.inPlay').attr('class','card')
-//     .each(function(d,i){
-//       d3.select(this)
-//         .transition().duration(300).delay(function() { return 600+ (i * 50); })
-//         .attr('transform',function(){
-//           var x = 500;
-//           var y = 50;
-//           return 'translate('+x+','+y+')';
-//         }).select('.back').style('opacity',1)
-//
-//       var that = d3.select(this).remove();
-//       burnPile.append(function(){
-//         return that.node();
-//       })
-//     });
-// }
-//
-// function getBurnCounts(){
-//   //if you have fewer than three cards, returns the amount
-//   //each player can burn and still be able to play
-//   var burns = [];
-//   for (var i=0;i<stackG[0].length;i++){
-//     var stackLength = d3.select('.p'+i).selectAll('.card')[0].length;
-//     var burn = (stackLength>3)?3:stackLength - 1;
-//     burns.push(burn);
-//   }
-//   return burns;
-// }
-//
-// function playRound(){
-//   var plays = getCards();
-//   play(plays);
-// }
-
-function reset(){
-  var cards = d3.selectAll('.card').each(function(d,i){
-    d3.select(this)
-      .transition().duration(300).delay(function() { return i * 50; })
-      .attr('transform','translate(75,100)')
-
-    var that = d3.select(this).remove();
-    deck.append(function(){
-      return that.node()
-    })
-  })
-}
-
-//d3.select('#play').on('click', playRound);
-
-// d3.select('#reset').on('click',reset);
+d3.select('#reset').on('click',function(){
+  war.resetDeck();
+})
