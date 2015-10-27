@@ -4,13 +4,16 @@ var suits = ['s','h','c','d'];
 var unicodes = {s:"\u2660",h:"\u2665",c:"\u2663",d:"\u2666"}
 var deckList = [];
 
-var colors = d3.scale.linear().domain([2,8,14]).range(['blue','green','red']);
-
 var svg = d3.select('body').append('svg').attr('height',900).attr('width',1000).style('fill','none');
 var deck = svg.append('g').attr('id','deck');
 var inPlay = svg.append('g').attr('id','inPlay');
 var burnPile = svg.append('g').attr('id','burn');
 var stackG;
+
+var cardBg = svg.append('defs').append('pattern').attr('id','cardBg')
+  .attr('patternUnits','userSpaceOnUse').attr('width',100).attr('height',100)
+  .append('image').attr('xlink:href','assets/skulls.png').attr('x',0).attr('y',0)
+  .attr('width',100).attr('height',100);
 
 for (var i=0;i<cards.length;i++){
   for (var s=0;s<suits.length;s++){
@@ -33,11 +36,12 @@ cards.append('text')
     var uni = unicodes[d.suit];
     var number = (d.value>10)?special[d.value-11]:d.value;
     return uni+number})
-  .attr('transform','translate(20,50)')
+  .attr('transform','translate(75,100)')
+  .attr('text-anchor','middle').style('font-size','72px')
   .attr('fill',function(d){return (d.suit == 'h'||d.suit == 'd')?'red':'black'});
 cards.append('rect').attr('class','back')
   .style('height','200px').style('width','150px').style('stroke-width',3)
-  .attr('fill','red').attr('stroke','white');
+  .attr('fill','url(#cardBg)').attr('stroke','gray');
 
 function shuffle(){
   deck.selectAll('.card').sort(function(d){

@@ -1,5 +1,5 @@
 body{
-  background:green;
+  background-image:url(../assets/green.png);
 }
 .card{
   position:absolute;
@@ -26,4 +26,9 @@ body{
 rect{
   rx:10;
   ry:10;
+}
+button{
+  position:absolute;
+  top:10px;
+  left:300px;
 }
