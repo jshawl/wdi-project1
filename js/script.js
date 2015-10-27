@@ -78,6 +78,35 @@ var war = {
         return that.node();
       })
     })
+  },
+  getPlays:function (){
+    var playArr = [];
+    var inPlay = this.components.inPlay;
+
+    //gotta get this in css animation//
+    // play0.transition().duration(300)
+    //   .attr('transform','translate(195,200)');
+    //
+    // play1.transition().duration(300)
+    //   .attr('transform','translate(355,200)');
+    //
+    // d3.selectAll('.inPlay').selectAll('.front').transition().duration(500)
+    //   .style('fill','white');
+    // d3.selectAll('.inPlay').selectAll('.back').transition().duration(500)
+    //   .style('opacity',0);
+
+    var plays = this.components.stackG.each(function(d,i){
+      var play = d3.select(this).select('.card').attr('class','card inPlay')
+      var p = parseInt(play.attr('num'));
+      playArr.push(p);
+
+      var that = play.remove();
+      inPlay.append(function(){
+        return that.node();
+      })
+
+    });
+    return playArr;
   }
 }
 
@@ -86,32 +115,35 @@ war.buildCards();
 d3.select('#shuffle').on('click',function(){
   war.shuffle();
 });
+d3.select('#deal').on('click', function(){
+  war.dealDeck(2);
+});
 
-function getCards(){
-  //get the top card from each stack
-  var play0 = d3.select('.p0').select('.card').attr('class','card inPlay')
-  play0.transition().duration(300)
-    .attr('transform','translate(195,200)');
-
-  var play1 = d3.select('.p1').select('.card').attr('class','card inPlay')
-  play1.transition().duration(300)
-    .attr('transform','translate(355,200)');
-
-    var p1 = parseInt(play0.attr('num'));
-    var p2 = parseInt(play1.attr('num'));
-
-  d3.selectAll('.inPlay').selectAll('.front').transition().duration(500)
-    .style('fill','white');
-  d3.selectAll('.inPlay').selectAll('.back').transition().duration(500)
-    .style('opacity',0);
-  d3.selectAll('.inPlay').each(function(d,i){
-    var that = d3.select(this).remove();
-    inPlay.append(function(){
-      return that.node()
-    })
-  })
-  return [p1,p2];
-}
+// function getCards(){
+//   //get the top card from each stack
+//   var play0 = d3.select('.p0').select('.card').attr('class','card inPlay')
+//   play0.transition().duration(300)
+//     .attr('transform','translate(195,200)');
+//
+//   var play1 = d3.select('.p1').select('.card').attr('class','card inPlay')
+//   play1.transition().duration(300)
+//     .attr('transform','translate(355,200)');
+//
+//     var p1 = parseInt(play0.attr('num'));
+//     var p2 = parseInt(play1.attr('num'));
+//
+//   d3.selectAll('.inPlay').selectAll('.front').transition().duration(500)
+//     .style('fill','white');
+//   d3.selectAll('.inPlay').selectAll('.back').transition().duration(500)
+//     .style('opacity',0);
+//   d3.selectAll('.inPlay').each(function(d,i){
+//     var that = d3.select(this).remove();
+//     inPlay.append(function(){
+//       return that.node()
+//     })
+//   })
+//   return [p1,p2];
+// }
 
 function play(plays){
   var p1 = plays[0];
@@ -251,6 +283,3 @@ function reset(){
 //d3.select('#play').on('click', playRound);
 
 // d3.select('#reset').on('click',reset);
-// d3.select('#deal').on('click', function(){
-//   dealDeck(2);
-// });
