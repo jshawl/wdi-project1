@@ -118,32 +118,16 @@ var war = {
     this.components.stackG.each(function(d,i){
       var dump = d3.select(this).selectAll('.card').filter(function(e,j){return j<burnCounts[i]});
       dump.each(function(f,k){
-        d3.select(this).attr('class','card burn')
-        //do this in css
-        //     d3.select(this)
-        //       .transition().duration(300).delay(function() { return 300 + (i * 50); })
-        //       .attr('transform',function(){
-        //         var x = 500;
-        //         var y = 50;
-        //         return 'translate('+x+','+y+')';
-        //       })
+        d3.select(this).transition().delay(500).attr('class','card burn');
         var that = d3.select(this).remove();
         burnPile.append(function(){
           return that.node();
         })
       })
     })
-
-    this.components.inPlay.selectAll('.card').attr('class','card')
+    this.components.inPlay.selectAll('.card')
       .each(function(d,i){
-        // do this in css//
-        //     d3.select(this)
-        //       .transition().duration(300).delay(function() { return 600+ (i * 50); })
-        //       .attr('transform',function(){
-        //         var x = 500;
-        //         var y = 50;
-        //         return 'translate('+x+','+y+')';
-        //       }).select('.back').style('opacity',1)
+        d3.select(this).transition().delay(500).attr('class','card burn');
         var that = d3.select(this).remove();
         burnPile.append(function(){
           return that.node();
@@ -172,6 +156,7 @@ var war = {
   },
   giveWinnerBurn:function(winner){
     this.components.burnPile.selectAll('.card').each(function(d,i){
+      d3.select(this).transition().delay(500).attr('class','card').attr('stack',winner)
       var that = d3.select(this).remove();
       d3.select('.p'+winner).append(function(){
         return that.node();
