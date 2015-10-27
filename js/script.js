@@ -25,7 +25,7 @@ var cards = deck.selectAll('.card').data(deckList).enter().append('svg:g').attr(
     return d.value;
   })
 
-cards.append('rect')
+cards.append('rect').attr('class','front').style('fill','white')
   .style('height','200px').style('width','150px').style('stroke-width',3)
   .attr('stroke',function(d){return (d.suit == 'h'||d.suit == 'd')?'red':'black'});
 cards.append('text')
@@ -35,6 +35,9 @@ cards.append('text')
     return uni+number})
   .attr('transform','translate(20,50)')
   .attr('fill',function(d){return (d.suit == 'h'||d.suit == 'd')?'red':'black'});
+cards.append('rect').attr('class','back')
+  .style('height','200px').style('width','150px').style('stroke-width',3)
+  .attr('fill','red').attr('stroke','white');
 
 function shuffle(){
   deck.selectAll('.card').sort(function(d){
@@ -73,15 +76,19 @@ function getCards(){
   //get the top card from each stack
   var play0 = d3.select('.p0').select('.card').attr('class','card inPlay')
   play0.transition().duration(300)
-    .attr('transform','translate(200,200)');
+    .attr('transform','translate(195,200)');
 
   var play1 = d3.select('.p1').select('.card').attr('class','card inPlay')
   play1.transition().duration(300)
-    .attr('transform','translate(350,200)');
+    .attr('transform','translate(355,200)');
 
     var p1 = parseInt(play0.attr('num'));
     var p2 = parseInt(play1.attr('num'));
 
+  d3.selectAll('.inPlay').selectAll('.front').transition().duration(500)
+    .style('fill','white');
+  d3.selectAll('.inPlay').selectAll('.back').transition().duration(500)
+    .style('opacity',0);
   d3.selectAll('.inPlay').each(function(d,i){
     var that = d3.select(this).remove();
     inPlay.append(function(){
@@ -120,7 +127,7 @@ function play(plays){
       d3.select('.p'+winner).append(function(){
         return that.node();
       })
-    })
+    }).select('.back').style('opacity',1)
 
   //if there's anything in the dump pile and there's a winner,
   //add contents of dump pile to winner's stack
@@ -188,7 +195,7 @@ function burn(plays){
           var x = 500;
           var y = 50;
           return 'translate('+x+','+y+')';
-        })
+        }).select('.back').style('opacity',1)
 
       var that = d3.select(this).remove();
       burnPile.append(function(){

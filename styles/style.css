@@ -1,3 +1,6 @@
+body{
+  background:green;
+}
 .card{
   position:absolute;
   height:200px;
