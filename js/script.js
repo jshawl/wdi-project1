@@ -48,6 +48,7 @@ var war = {
     this.components.deck.selectAll('.card').sort(function(d){
       return 0.5-Math.random();
     })
+    this.components.deck.attr('class','shuffling').transition().delay(1000).attr('class','');
   },
   dealDeck:function(players){
     this.players = players;

@@ -16,25 +16,12 @@ svg{
 .card .front{
   fill:white;
 }
-/*.card{
-  -webkit-transition: 2s ease-in-out;
-  -moz-transition: 2s ease-in-out;
-  -o-transition: 2s ease-in-out;
-  transition: 2s ease-in-out;
-}*/
 rect{
   rx:10;
   ry:10;
   height:200px;
   width:150px;
 }
-/*.card{
-  -webkit-transform: translate(50px,50px);
-  -moz-transform: translate(50px,50px);
-  -o-transform: translate(50px,50px);
-  -ms-transform: translate(50px,50px);
-  transform: translate(50px,50px);
-}*/
 .card[stack='0']{
   -webkit-animation-name: stack0; /* Chrome, Safari, Opera */
   -webkit-animation-duration: 0.3s; /* Chrome, Safari, Opera */
@@ -47,7 +34,36 @@ rect{
   animation-name: stack1;
   animation-duration: 0.3s;
 }
-
+.inPlay[stack='0']{
+  -webkit-animation-name: inPlay0; /* Chrome, Safari, Opera */
+  -webkit-animation-duration: 0.3s; /* Chrome, Safari, Opera */
+  animation-name: inPlay0;
+  animation-duration: 0.3s;
+}
+.inPlay[stack='1']{
+  -webkit-animation-name: inPlay1; /* Chrome, Safari, Opera */
+  -webkit-animation-duration: 0.3s; /* Chrome, Safari, Opera */
+  animation-name: inPlay1;
+  animation-duration: 0.3s;
+}
+#deck.shuffling .card{
+  -webkit-transform-origin: center;
+  -moz-transform-origin: center;
+  -o-transform-origin: center;
+  -ms-transform-origin: center;
+  transform-origin: center;
+  -webkit-animation-name: shuffle; /* Chrome, Safari, Opera */
+  -webkit-animation-duration: 1s; /* Chrome, Safari, Opera */
+  animation-name: shuffle;
+  animation-duration: 1s;
+}
+#inPlay{
+  -webkit-transform: translate(350px,500px);
+  -moz-transform: translate(350px,500px);
+  -o-transform: translate(350px,500px);
+  -ms-transform: translate(350px,500px);
+  transform: translate(350px,500px);
+}
 .stack{
   -webkit-transform: translate(150px,200px);
   -moz-transform: translate(150px,200px);
@@ -55,13 +71,45 @@ rect{
   -ms-transform: translate(150px,200px);
   transform: translate(150px,200px);
 }
-
 .stack:last-of-type{
   -webkit-transform: translate(450px,200px);
   -moz-transform: translate(450px,200px);
   -o-transform: translate(450px,200px);
   -ms-transform: translate(450px,200px);
   transform: translate(450px,200px);
+}
+
+@-webkit-keyframes shuffle {
+    from {
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(1080deg);
+      -moz-transform: rotate(1080deg);
+      -o-transform: rotate(1080deg);
+      -ms-transform: rotate(1080deg);
+      transform: rotate(1080deg);
+    }
+}
+@keyframes shuffle {
+  from {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(1080deg);
+    -moz-transform: rotate(1080deg);
+    -o-transform: rotate(1080deg);
+    -ms-transform: rotate(1080deg);
+    transform: rotate(1080deg);
+  }
 }
 
 @-webkit-keyframes stack0 {
@@ -126,6 +174,70 @@ rect{
     -o-transform: translate(50px,50px);
     -ms-transform: translate(50px,50px);
     transform: translate(50px,50px);
+  }
+}
+@-webkit-keyframes inPlay0 {
+    from {
+      -webkit-transform: translate(50px,50px);
+      -moz-transform: translate(50px,50px);
+      -o-transform: translate(50px,50px);
+      -ms-transform: translate(50px,50px);
+      transform: translate(50px,50px);
+    }
+    to {
+      -webkit-transform: translate(100px,200px);
+      -moz-transform: translate(100px,200px);
+      -o-transform: translate(100px,200px);
+      -ms-transform: translate(100px,200px);
+      transform: translate(100px,200px);
+    }
+}
+@keyframes inPlay0 {
+  from {
+    -webkit-transform: translate(50px,50px);
+    -moz-transform: translate(50px,50px);
+    -o-transform: translate(50px,50px);
+    -ms-transform: translate(50px,50px);
+    transform: translate(50px,50px);
+  }
+  to {
+    -webkit-transform: translate(100px,200px);
+    -moz-transform: translate(100px,200px);
+    -o-transform: translate(100px,200px);
+    -ms-transform: translate(100px,200px);
+    transform: translate(100px,200px);
+  }
+}
+@-webkit-keyframes inPlay1 {
+    from {
+      -webkit-transform: translate(50px,50px);
+      -moz-transform: translate(50px,50px);
+      -o-transform: translate(50px,50px);
+      -ms-transform: translate(50px,50px);
+      transform: translate(50px,50px);
+    }
+    to {
+      -webkit-transform: translate(100px,-200px);
+      -moz-transform: translate(100px,-200px);
+      -o-transform: translate(100px,-200px);
+      -ms-transform: translate(100px,-200px);
+      transform: translate(100px,-200px);
+    }
+}
+@keyframes inPlay1 {
+  from {
+    -webkit-transform: translate(50px,50px);
+    -moz-transform: translate(50px,50px);
+    -o-transform: translate(50px,50px);
+    -ms-transform: translate(50px,50px);
+    transform: translate(50px,50px);
+  }
+  to {
+    -webkit-transform: translate(100px,-200px);
+    -moz-transform: translate(100px,-200px);
+    -o-transform: translate(100px,-200px);
+    -ms-transform: translate(100px,-200px);
+    transform: translate(100px,-200px);
   }
 }
 
