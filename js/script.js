@@ -83,17 +83,8 @@ var war = {
   getPlays:function (){
     var playArr = [];
     var inPlay = this.components.inPlay;
-    //gotta get this in css animation//
-    // play0.transition().duration(300)
-    //   .attr('transform','translate(195,200)');
-    // play1.transition().duration(300)
-    //   .attr('transform','translate(355,200)');
-    // d3.selectAll('.inPlay').selectAll('.front').transition().duration(500)
-    //   .style('fill','white');
-    // d3.selectAll('.inPlay').selectAll('.back').transition().duration(500)
-    //   .style('opacity',0);
     var plays = this.components.stackG.each(function(d,i){
-      var play = d3.select(this).select('.card').attr('class','card inPlay')
+      var play = d3.select(this).select('.card').attr('class','card inPlay');
       var p = parseInt(play.attr('num'));
       playArr.push(p);
 
@@ -101,7 +92,6 @@ var war = {
       inPlay.append(function(){
         return that.node();
       })
-
     });
     return playArr;
   },
@@ -128,6 +118,7 @@ var war = {
     this.components.stackG.each(function(d,i){
       var dump = d3.select(this).selectAll('.card').filter(function(e,j){return j<burnCounts[i]});
       dump.each(function(f,k){
+        d3.select(this).attr('class','card burn')
         //do this in css
         //     d3.select(this)
         //       .transition().duration(300).delay(function() { return 300 + (i * 50); })
@@ -172,30 +163,15 @@ var war = {
     var winnings = this.components.inPlay.selectAll('.card')
       .transition().delay(1000)
       .attr('class','card').attr('stack',winner);
-    // do this in css animations
-    //     .transition().duration(300).delay(function(d,i){return i*50})
-    //     .attr('transform', function(){
-    //       var x = (winner==0)?50:500;
-    //       var y = 400;
-    //       return 'translate('+x+','+y+')';
-    //     })
     winnings.each(function(d,i){
       var that = d3.select(this).remove();
       d3.select('.p'+winner).append(function(){
         return that.node();
       })
-    })//css animate too -- /.select('.back').style('opacity',1)
+    })
   },
   giveWinnerBurn:function(winner){
     this.components.burnPile.selectAll('.card').each(function(d,i){
-      // do this in css
-      //         d3.select(this)
-      //           .transition().duration(300).delay(function() { return 300 + (i * 50); })
-      //           .attr('transform',function(){
-      //             var x = (winner==0)?50:500;
-      //             var y = 400;
-      //             return 'translate('+x+','+y+')';
-      //           })
       var that = d3.select(this).remove();
       d3.select('.p'+winner).append(function(){
         return that.node();
@@ -204,16 +180,14 @@ var war = {
   },
   resetDeck:function(){
     var deck = this.components.deck;
-    this.components.svg.selectAll('.card').each(function(d,i){
-      //do in css
-      //   d3.select(this)
-      //     .transition().duration(300).delay(function() { return i * 50; })
-      //     .attr('transform','translate(75,100)')
+    this.components.svg.selectAll('.card')
+      .each(function(d,i){
       var that = d3.select(this).remove();
       deck.append(function(){
         return that.node();
       })
     })
+    .transition().delay(300).attr('class','card').attr('stack',null)
   }
 }
 war.buildComponents();

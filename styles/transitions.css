@@ -33,12 +33,20 @@
   -ms-transform: translate(435px,350px);
   transform: translate(435px,350px);
 }
-.card{
+.card.inPlay .back{
+  opacity:0;
+}
+.card.burn{
+  -webkit-transform: translate(650px,50px);
+  -moz-transform: translate(650px,50px);
+  -o-transform: translate(650px,50px);
+  -ms-transform: translate(650px,50px);
+  transform: translate(650px,50px);
+}
+.card,.card.inPlay,.card.inPlay .back{
   transition: 0.3s ease;
 }
-/*.card[stack='0'],.card[stack='1']{
-  transition: 0.3s ease;
-}*/
+
 
 
 /*.card[stack='0']{
