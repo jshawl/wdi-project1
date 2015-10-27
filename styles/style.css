@@ -8,7 +8,7 @@ svg{
   fill:red;
   font-size:72px;
   text-anchor:middle;
-  width:200px;
+  transform:translate(75px,75px);
 }
 .card[suit='s'] text,.card[suit='c'] text{
   fill:black;
@@ -22,6 +22,20 @@ rect{
   height:200px;
   width:150px;
 }
+
+/*.p0 > .card{
+  animation-duration:1s;
+  transform: translate(50,500);
+  height:500px;
+}*/
+/*div {
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    animation-name: example;
+    animation-duration: 4s;
+}*/
+
 button{
   position:absolute;
   top:10px;

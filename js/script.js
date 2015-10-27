@@ -62,6 +62,16 @@ var war = {
   deal:function(){
     this.components.deck.selectAll('.card').each(function(d,i){
       var stackNum = i%2;
+
+      d3.select(this)
+        .attr('stack',stackNum)
+        .transition().duration(300).delay(function() { return i * 50; })
+        .attr('transform',function(){
+          var x = (i%2==0)?50:500;
+          var y = 400;
+          return 'translate('+x+','+y+')';
+        })
+
       var that = d3.select(this).remove();
       d3.select('.p'+stackNum).append(function(){
         return that.node();
