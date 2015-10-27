@@ -1,11 +1,36 @@
-var cards = [2,3,4,5,6,7,8,9,10,11,12,13,14];
-var special = ['J','Q','K','A'];
-var suits = ['s','h','c','d'];
-var unicodes = {s:"\u2660",h:"\u2665",c:"\u2663",d:"\u2666"}
-var deckList = [];
+// try to have one global variable
+var war = {
+  deck:[],
+  buildDeck: function(){
+    var cards = [2,3,4,5,6,7,8,9,10,11,12,13,14];
+    var special = ['J','Q','K','A'];
+    var suits = ['s','h','c','d'];
+    var unicodes = {s:"\u2660",h:"\u2665",c:"\u2663",d:"\u2666"};
+    var deckList = [];
+    for (var i=0;i<cards.length;i++){
+      for (var s=0;s<suits.length;s++){
+        deckList.push({
+          'value':cards[i],
+          'suit':suits[s],
+          'unicode':unicodes[suits[s]],
+          'display':(cards[i]>10)?special[cards[i]-11]:cards[i]
+        });
+      }
+    }
+    return deckList;
+  }
+}
+
+
+
+
+//var deckList = [];
 
 var svg = d3.select('body').append('svg').attr('height',900).attr('width',1000).style('fill','none');
 var deck = svg.append('g').attr('id','deck');
+
+// all code above should have a single interface
+
 var inPlay = svg.append('g').attr('id','inPlay');
 var burnPile = svg.append('g').attr('id','burn');
 var stackG;
@@ -15,12 +40,8 @@ var cardBg = svg.append('defs').append('pattern').attr('id','cardBg')
   .append('image').attr('xlink:href','assets/skulls.png').attr('x',0).attr('y',0)
   .attr('width',100).attr('height',100);
 
-for (var i=0;i<cards.length;i++){
-  for (var s=0;s<suits.length;s++){
-    deckList.push({'value':cards[i],'suit':suits[s]});
-  }
-}
-var cards = deck.selectAll('.card').data(deckList).enter().append('svg:g').attr('class','card')
+
+var cards = deck.selectAll('.card').data(war.buildDeck()).enter().append('svg:g').attr('class','card')
   .attr('d',function(d){
     return d.value + d.suit;
   })
@@ -32,8 +53,8 @@ cards.append('rect').attr('class','front').style('fill','white')
   .style('height','200px').style('width','150px').style('stroke-width',3).style('stroke','none')
 cards.append('text')
   .text(function(d){
-    var uni = unicodes[d.suit];
-    var number = (d.value>10)?special[d.value-11]:d.value;
+    var uni = d.unicode;//unicodes[d.suit];
+    var number = d.display;//(d.value>10)?special[d.value-11]:d.value;
     return uni+number})
   .attr('transform','translate(75,100)')
   .attr('text-anchor','middle').style('font-size','72px')
@@ -59,6 +80,7 @@ function deal(){
   deck.selectAll('.card').each(function(d,i){
     var stackNum = i%2;
 
+    // replace below with CSS animation
     d3.select(this)
       .attr('stack',stackNum)
       .transition().duration(300).delay(function() { return i * 50; })
@@ -67,6 +89,7 @@ function deal(){
         var y = 400;
         return 'translate('+x+','+y+')';
       })
+      // to here
 
     var that = d3.select(this).remove();
     d3.select('.p'+stackNum).append(function(){
@@ -119,7 +142,7 @@ function play(plays){
   }
   //move append contents of inPlay to winning stack
   inPlay.selectAll('.inPlay').attr('class','card').attr('stack',winner)
-    .transition().duration(300).delay(function(){return i*50})
+    .transition().duration(300).delay(function(d,i){return i*50})
     .attr('transform', function(){
       var x = (winner==0)?50:500;
       var y = 400;
