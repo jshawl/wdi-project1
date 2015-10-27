@@ -125,7 +125,22 @@ var war = {
     console.log('burn')
   },
   giveWinner:function(winner){
-    console.log(winner)
+    console.log(winner);
+    var winnings = this.components.inPlay.selectAll('.card').attr('class','card').attr('stack',winner);
+    // do this in css animations
+    //     .transition().duration(300).delay(function(d,i){return i*50})
+    //     .attr('transform', function(){
+    //       var x = (winner==0)?50:500;
+    //       var y = 400;
+    //       return 'translate('+x+','+y+')';
+    //     })
+    winnings.each(function(d,i){
+      var that = d3.select(this).remove();
+      d3.select('.p'+winner).append(function(){
+        return that.node();
+      })
+    })//css animate too -- /.select('.back').style('opacity',1)
+
   }
 }
 
