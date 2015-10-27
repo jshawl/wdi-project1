@@ -29,8 +29,7 @@ var cards = deck.selectAll('.card').data(deckList).enter().append('svg:g').attr(
   })
 
 cards.append('rect').attr('class','front').style('fill','white')
-  .style('height','200px').style('width','150px').style('stroke-width',3)
-  .attr('stroke',function(d){return (d.suit == 'h'||d.suit == 'd')?'red':'black'});
+  .style('height','200px').style('width','150px').style('stroke-width',3).style('stroke','none')
 cards.append('text')
   .text(function(d){
     var uni = unicodes[d.suit];
@@ -131,9 +130,6 @@ function play(plays){
       d3.select('.p'+winner).append(function(){
         return that.node();
       })
-      // d3.select('.p'+winner).append(function(){
-      //   return that.node();
-      // })
     }).select('.back').style('opacity',1)
 
   //if there's anything in the dump pile and there's a winner,
@@ -156,7 +152,6 @@ function play(plays){
         })
       });
   }
-
   console.log(d3.select('.p0').selectAll('.card')[0].length,d3.select('.p1').selectAll('.card')[0].length);
 }
 
@@ -232,9 +227,13 @@ function reset(){
 
 }
 
-d3.select('button').on("click", playRound);
+d3.select('#play').on('click', playRound);
+d3.select('#shuffle').on('click',shuffle);
+d3.select('#deal').on('click', function(){
+  dealDeck(2);
+});
 
-shuffle()
-shuffle()
-shuffle()
-dealDeck(2);
+// shuffle()
+// shuffle()
+// shuffle()
+// dealDeck(2);
