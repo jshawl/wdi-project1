@@ -224,11 +224,21 @@ function playRound(){
 }
 
 function reset(){
+  var cards = d3.selectAll('.card').each(function(d,i){
+    d3.select(this)
+      .transition().duration(300).delay(function() { return i * 50; })
+      .attr('transform','translate(75,100)')
 
+    var that = d3.select(this).remove();
+    deck.append(function(){
+      return that.node()
+    })
+  })
 }
 
 d3.select('#play').on('click', playRound);
 d3.select('#shuffle').on('click',shuffle);
+d3.select('#reset').on('click',reset);
 d3.select('#deal').on('click', function(){
   dealDeck(2);
 });
