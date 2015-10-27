@@ -1,6 +1,5 @@
 // try to have one global variable
 var war = {
-  //deck:[],
   buildDeck: function(){
     var cards = [2,3,4,5,6,7,8,9,10,11,12,13,14];
     var special = ['J','Q','K','A'];
@@ -28,11 +27,27 @@ var war = {
     this.components.cardBG_img = this.components.cardBG.append('image');
   },
   components:{},
+  buildCards:function(){
+    var cards = this.components.deck.selectAll('.card').data(this.buildDeck())
+      .enter().append('g').attr('class','card')
+      .attr('d', function(d){return d.value + d.suit})
+      .attr('num',function(d){return d.value});
 
+    cards.append('rect').attr('class','front');
+    cards.append('text')
+      .text(function(d){
+        var uni = d.unicode;
+        var number = d.display;
+        return uni+number})
+    cards.append('rect').attr('class','back');
+
+    return cards;
+  }
 
 }
 
 war.buildComponents();
+war.buildCards();
 
 
 //var deckList = [];
@@ -49,27 +64,27 @@ war.buildComponents();
 //   .attr('width',100).attr('height',100);
 
 
-var cards = war.components.deck.selectAll('.card').data(war.buildDeck()).enter().append('svg:g').attr('class','card')
-  .attr('d',function(d){
-    return d.value + d.suit;
-  })
-  .attr('num', function(d){
-    return d.value;
-  })
+// var cards = war.components.deck.selectAll('.card').data(war.buildDeck()).enter().append('svg:g').attr('class','card')
+//   .attr('d',function(d){
+//     return d.value + d.suit;
+//   })
+//   .attr('num', function(d){
+//     return d.value;
+//   })
 
-cards.append('rect').attr('class','front').style('fill','white')
-  .style('height','200px').style('width','150px').style('stroke-width',3).style('stroke','none')
-cards.append('text')
-  .text(function(d){
-    var uni = d.unicode;//unicodes[d.suit];
-    var number = d.display;//(d.value>10)?special[d.value-11]:d.value;
-    return uni+number})
-  .attr('transform','translate(75,100)')
-  .attr('text-anchor','middle').style('font-size','72px')
-  .attr('fill',function(d){return (d.suit == 'h'||d.suit == 'd')?'red':'black'});
-cards.append('rect').attr('class','back')
-  .style('height','200px').style('width','150px').style('stroke-width',3)
-  .attr('fill','url(#cardBg)').attr('stroke','gray');
+// cards.append('rect').attr('class','front').style('fill','white')
+//   .style('height','200px').style('width','150px').style('stroke-width',3).style('stroke','none')
+// cards.append('text')
+//   .text(function(d){
+//     var uni = d.unicode;//unicodes[d.suit];
+//     var number = d.display;//(d.value>10)?special[d.value-11]:d.value;
+//     return uni+number})
+//   .attr('transform','translate(75,100)')
+//   .attr('text-anchor','middle').style('font-size','72px')
+//   .attr('fill',function(d){return (d.suit == 'h'||d.suit == 'd')?'red':'black'});
+// cards.append('rect').attr('class','back')
+//   .style('height','200px').style('width','150px').style('stroke-width',3)
+//   .attr('fill','url(#cardBg)').attr('stroke','gray');
 
 function shuffle(){
   deck.selectAll('.card').sort(function(d){
