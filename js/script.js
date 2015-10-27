@@ -107,6 +107,25 @@ var war = {
 
     });
     return playArr;
+  },
+  playHand: function(plays){
+    var winner;
+    if (plays[0]>plays[1]){
+      winner = 0;
+    }else if (plays[1]>plays[0]){
+      winner = 1;
+    }else{
+      this.burn(plays);
+      return;
+    }
+    this.giveWinner(winner);
+    return winner;
+  },
+  burn:function(plays){
+    console.log('burn')
+  },
+  giveWinner:function(winner){
+    console.log(winner)
   }
 }
 
@@ -118,86 +137,64 @@ d3.select('#shuffle').on('click',function(){
 d3.select('#deal').on('click', function(){
   war.dealDeck(2);
 });
+d3.select('#play').on('click', function(){
+  var plays = war.getPlays();
+  war.playHand(plays);
+});
 
-// function getCards(){
-//   //get the top card from each stack
-//   var play0 = d3.select('.p0').select('.card').attr('class','card inPlay')
-//   play0.transition().duration(300)
-//     .attr('transform','translate(195,200)');
-//
-//   var play1 = d3.select('.p1').select('.card').attr('class','card inPlay')
-//   play1.transition().duration(300)
-//     .attr('transform','translate(355,200)');
-//
-//     var p1 = parseInt(play0.attr('num'));
-//     var p2 = parseInt(play1.attr('num'));
-//
-//   d3.selectAll('.inPlay').selectAll('.front').transition().duration(500)
-//     .style('fill','white');
-//   d3.selectAll('.inPlay').selectAll('.back').transition().duration(500)
-//     .style('opacity',0);
-//   d3.selectAll('.inPlay').each(function(d,i){
-//     var that = d3.select(this).remove();
-//     inPlay.append(function(){
-//       return that.node()
+// function play(plays){
+//   var p1 = plays[0];
+//   var p2 = plays[1];
+//   var winner;
+//   //compare results of getCards(). If one is greater than the other, add to
+//   //end of winning stack
+//   if (p1 > p2){
+//     winner = 0;
+//   }else if(p2 > p1){
+//     winner = 1;
+//   }else{
+//     //if there's a tie, the cards played and three more cards each get added to the dump pile
+//     //play again to see who gets them
+//     burn(plays);
+//     return;
+//   }
+//   //move append contents of inPlay to winning stack
+//   inPlay.selectAll('.inPlay').attr('class','card').attr('stack',winner)
+//     .transition().duration(300).delay(function(d,i){return i*50})
+//     .attr('transform', function(){
+//       var x = (winner==0)?50:500;
+//       var y = 400;
+//       return 'translate('+x+','+y+')';
 //     })
-//   })
-//   return [p1,p2];
+//     .each(function(d,i){
+//       var that = d3.select(this).remove();
+//       d3.select('.p'+winner).append(function(){
+//         return that.node();
+//       })
+//     }).select('.back').style('opacity',1)
+//
+//   //if there's anything in the dump pile and there's a winner,
+//   //add contents of dump pile to winner's stack
+//   var dumpLen = burnPile.selectAll('.card')[0].length;
+//   if (dumpLen>0 && winner>=0){
+//     burnPile.selectAll('.card')
+//       .each(function(d,i){
+//         d3.select(this)
+//           .transition().duration(300).delay(function() { return 300 + (i * 50); })
+//           .attr('transform',function(){
+//             var x = (winner==0)?50:500;
+//             var y = 400;
+//             return 'translate('+x+','+y+')';
+//           })
+//
+//         var that = d3.select(this).remove();
+//         d3.select('.p'+winner).append(function(){
+//           return that.node();
+//         })
+//       });
+//   }
+//   console.log(d3.select('.p0').selectAll('.card')[0].length,d3.select('.p1').selectAll('.card')[0].length);
 // }
-
-function play(plays){
-  var p1 = plays[0];
-  var p2 = plays[1];
-  var winner;
-  //compare results of getCards(). If one is greater than the other, add to
-  //end of winning stack
-  if (p1 > p2){
-    winner = 0;
-  }else if(p2 > p1){
-    winner = 1;
-  }else{
-    //if there's a tie, the cards played and three more cards each get added to the dump pile
-    //play again to see who gets them
-    burn(plays);
-    return;
-  }
-  //move append contents of inPlay to winning stack
-  inPlay.selectAll('.inPlay').attr('class','card').attr('stack',winner)
-    .transition().duration(300).delay(function(d,i){return i*50})
-    .attr('transform', function(){
-      var x = (winner==0)?50:500;
-      var y = 400;
-      return 'translate('+x+','+y+')';
-    })
-    .each(function(d,i){
-      var that = d3.select(this).remove();
-      d3.select('.p'+winner).append(function(){
-        return that.node();
-      })
-    }).select('.back').style('opacity',1)
-
-  //if there's anything in the dump pile and there's a winner,
-  //add contents of dump pile to winner's stack
-  var dumpLen = burnPile.selectAll('.card')[0].length;
-  if (dumpLen>0 && winner>=0){
-    burnPile.selectAll('.card')
-      .each(function(d,i){
-        d3.select(this)
-          .transition().duration(300).delay(function() { return 300 + (i * 50); })
-          .attr('transform',function(){
-            var x = (winner==0)?50:500;
-            var y = 400;
-            return 'translate('+x+','+y+')';
-          })
-
-        var that = d3.select(this).remove();
-        d3.select('.p'+winner).append(function(){
-          return that.node();
-        })
-      });
-  }
-  console.log(d3.select('.p0').selectAll('.card')[0].length,d3.select('.p1').selectAll('.card')[0].length);
-}
 
 function burn(plays){
   var burns = getBurnCounts();
