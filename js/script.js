@@ -45,16 +45,15 @@ var war = {
     return cards;
   },
   shuffle:function(){
-    this.components.deck.selectAll('.card').sort(function(d){
-      return 0.5-Math.random();
-    })
+    // this.components.deck.selectAll('.card').sort(function(d){
+    //   return 0.5-Math.random();
+    // })
     this.components.deck.attr('class','shuffling').transition().delay(1000).attr('class','');
   },
   yates:function(array){
     var m = array.length, t, i;
     while (m) {
       i = Math.floor(Math.random() * m--);
-
       t = array[m];
       array[m] = array[i];
       array[i] = t;
@@ -71,8 +70,9 @@ var war = {
     this.deal();
   },
   deal:function(){
+    var players = this.players;
     this.components.deck.selectAll('.card').each(function(d,i){
-      var stackNum = i%2;//need to use number of players here
+      var stackNum = i%players;
       d3.select(this).transition().delay(50*i).attr('stack',stackNum);
       var that = d3.select(this).remove();
       d3.select('.p'+stackNum).append(function(){

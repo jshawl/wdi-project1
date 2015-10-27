@@ -1,0 +1,264 @@
+.card{
+  -webkit-transform: translate(50px,50px);
+  -moz-transform: translate(50px,50px);
+  -o-transform: translate(50px,50px);
+  -ms-transform: translate(50px,50px);
+  transform: translate(50px,50px);
+}
+.card[stack='0']{
+  -webkit-transform: translate(100px,400px);
+  -moz-transform: translate(100px,400px);
+  -o-transform: translate(100px,400px);
+  -ms-transform: translate(100px,400px);
+  transform: translate(100px,400px);
+}
+.card[stack='1']{
+  -webkit-transform: translate(600px,400px);
+  -moz-transform: translate(600px,400px);
+  -o-transform: translate(600px,400px);
+  -ms-transform: translate(600px,400px);
+  transform: translate(600px,400px);
+}
+.card.inPlay[stack='0']{
+  -webkit-transform: translate(265px,350px);
+  -moz-transform: translate(265px,350px);
+  -o-transform: translate(265px,350px);
+  -ms-transform: translate(265px,350px);
+  transform: translate(265px,350px);
+}
+.card.inPlay[stack='1']{
+  -webkit-transform: translate(435px,350px);
+  -moz-transform: translate(435px,350px);
+  -o-transform: translate(435px,350px);
+  -ms-transform: translate(435px,350px);
+  transform: translate(435px,350px);
+}
+.card{
+  transition: 0.3s ease;
+}
+/*.card[stack='0'],.card[stack='1']{
+  transition: 0.3s ease;
+}*/
+
+
+/*.card[stack='0']{
+  -webkit-animation-name: stack0;
+  -webkit-animation-duration: 0.3s;
+  animation-name: stack0;
+  animation-duration: 0.3s;
+}
+.card[stack='1']{
+  -webkit-animation-name: stack1;
+  -webkit-animation-duration: 0.3s;
+  animation-name: stack1;
+  animation-duration: 0.3s;
+}
+.inPlay[stack='0']{
+  -webkit-animation-name: inPlay0;
+  -webkit-animation-duration: 0.3s;
+  animation-name: inPlay0;
+  animation-duration: 0.3s;
+}
+.inPlay[stack='1']{
+  -webkit-animation-name: inPlay1;
+  -webkit-animation-duration: 0.3s;
+  animation-name: inPlay1;
+  animation-duration: 0.3s;
+}
+#deck.shuffling .card{
+  -webkit-transform-origin: center;
+  -moz-transform-origin: center;
+  -o-transform-origin: center;
+  -ms-transform-origin: center;
+  transform-origin: center;
+  -webkit-animation-name: shuffle;
+  -webkit-animation-duration: 1s;
+  animation-name: shuffle;
+  animation-duration: 1s;
+}
+/*#deck.shuffling .card:nth-child(odd){
+  anm
+}
+#inPlay{
+  -webkit-transform: translate(350px,500px);
+  -moz-transform: translate(350px,500px);
+  -o-transform: translate(350px,500px);
+  -ms-transform: translate(350px,500px);
+  transform: translate(350px,500px);
+}
+.stack{
+  -webkit-transform: translate(150px,200px);
+  -moz-transform: translate(150px,200px);
+  -o-transform: translate(150px,200px);
+  -ms-transform: translate(150px,200px);
+  transform: translate(150px,200px);
+}
+.stack:last-of-type{
+  -webkit-transform: translate(450px,200px);
+  -moz-transform: translate(450px,200px);
+  -o-transform: translate(450px,200px);
+  -ms-transform: translate(450px,200px);
+  transform: translate(450px,200px);
+}
+
+@-webkit-keyframes shuffle {
+    from {
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(1080deg);
+      -moz-transform: rotate(1080deg);
+      -o-transform: rotate(1080deg);
+      -ms-transform: rotate(1080deg);
+      transform: rotate(1080deg);
+    }
+}
+@keyframes shuffle {
+  from {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(1080deg);
+    -moz-transform: rotate(1080deg);
+    -o-transform: rotate(1080deg);
+    -ms-transform: rotate(1080deg);
+    transform: rotate(1080deg);
+  }
+}
+
+@-webkit-keyframes stack0 {
+    from {
+      -webkit-transform: translate(-150px,-200px);
+      -moz-transform: translate(-150px,-200px);
+      -o-transform: translate(-150px,-200px);
+      -ms-transform: translate(-150px,-200px);
+      transform: translate(-150px,-200px);
+    }
+    to {
+      -webkit-transform: translate(50px,50px);
+      -moz-transform: translate(50px,50px);
+      -o-transform: translate(50px,50px);
+      -ms-transform: translate(50px,50px);
+      transform: translate(50px,50px);
+    }
+}
+@keyframes stack0 {
+  from {
+    -webkit-transform: translate(-150px,-200px);
+    -moz-transform: translate(-150px,-200px);
+    -o-transform: translate(-150px,-200px);
+    -ms-transform: translate(-150px,-200px);
+    transform: translate(-150px,-200px);
+  }
+  to {
+    -webkit-transform: translate(50px,50px);
+    -moz-transform: translate(50px,50px);
+    -o-transform: translate(50px,50px);
+    -ms-transform: translate(50px,50px);
+    transform: translate(50px,50px);
+  }
+}
+@-webkit-keyframes stack1 {
+    from {
+      -webkit-transform: translate(-450px,-200px);
+      -moz-transform: translate(-450px,-200px);
+      -o-transform: translate(-450px,-200px);
+      -ms-transform: translate(-450px,-200px);
+      transform: translate(-450px,-200px);
+    }
+    to {
+      -webkit-transform: translate(50px,50px);
+      -moz-transform: translate(50px,50px);
+      -o-transform: translate(50px,50px);
+      -ms-transform: translate(50px,50px);
+      transform: translate(50px,50px);
+    }
+}
+@keyframes stack1 {
+  from {
+    -webkit-transform: translate(-450px,-200px);
+    -moz-transform: translate(-450px,-200px);
+    -o-transform: translate(-450px,-200px);
+    -ms-transform: translate(-450px,-200px);
+    transform: translate(-450px,-200px);
+  }
+  to {
+    -webkit-transform: translate(50px,50px);
+    -moz-transform: translate(50px,50px);
+    -o-transform: translate(50px,50px);
+    -ms-transform: translate(50px,50px);
+    transform: translate(50px,50px);
+  }
+}
+@-webkit-keyframes inPlay0 {
+    from {
+      -webkit-transform: translate(50px,50px);
+      -moz-transform: translate(50px,50px);
+      -o-transform: translate(50px,50px);
+      -ms-transform: translate(50px,50px);
+      transform: translate(50px,50px);
+    }
+    to {
+      -webkit-transform: translate(100px,200px);
+      -moz-transform: translate(100px,200px);
+      -o-transform: translate(100px,200px);
+      -ms-transform: translate(100px,200px);
+      transform: translate(100px,200px);
+    }
+}
+@keyframes inPlay0 {
+  from {
+    -webkit-transform: translate(50px,50px);
+    -moz-transform: translate(50px,50px);
+    -o-transform: translate(50px,50px);
+    -ms-transform: translate(50px,50px);
+    transform: translate(50px,50px);
+  }
+  to {
+    -webkit-transform: translate(100px,200px);
+    -moz-transform: translate(100px,200px);
+    -o-transform: translate(100px,200px);
+    -ms-transform: translate(100px,200px);
+    transform: translate(100px,200px);
+  }
+}
+@-webkit-keyframes inPlay1 {
+    from {
+      -webkit-transform: translate(50px,50px);
+      -moz-transform: translate(50px,50px);
+      -o-transform: translate(50px,50px);
+      -ms-transform: translate(50px,50px);
+      transform: translate(50px,50px);
+    }
+    to {
+      -webkit-transform: translate(100px,-200px);
+      -moz-transform: translate(100px,-200px);
+      -o-transform: translate(100px,-200px);
+      -ms-transform: translate(100px,-200px);
+      transform: translate(100px,-200px);
+    }
+}
+@keyframes inPlay1 {
+  from {
+    -webkit-transform: translate(50px,50px);
+    -moz-transform: translate(50px,50px);
+    -o-transform: translate(50px,50px);
+    -ms-transform: translate(50px,50px);
+    transform: translate(50px,50px);
+  }
+  to {
+    -webkit-transform: translate(100px,-200px);
+    -moz-transform: translate(100px,-200px);
+    -o-transform: translate(100px,-200px);
+    -ms-transform: translate(100px,-200px);
+    transform: translate(100px,-200px);
+  }
+}*/
