@@ -45,19 +45,29 @@ var war = {
     cards.append('rect').attr('class','back').attr('fill','url(#cardBg)');
     return cards;
   },
-  shuffle:function(deck){
-    deck.selectAll('.card').sort(function(d){
+  shuffle:function(){
+    this.components.deck.selectAll('.card').sort(function(d){
       return 0.5-Math.random();
     })
   },
   dealDeck:function(players){
+    this.players = players;
     this.components.stackG = this.components.svg.selectAll('.stack')
       .data(d3.range(players));
     this.components.stackG.enter().append('g')
       .attr('class',function(d,i){return 'stack p'+i});
     this.components.stackG.exit().remove();
+    this.deal();
   },
-  
+  deal:function(){
+    this.components.deck.selectAll('.card').each(function(d,i){
+      var stackNum = i%2;
+      var that = d3.select(this).remove();
+      d3.select('.p'+stackNum).append(function(){
+        return that.node();
+      })
+    })
+  }
   // function deal(){
   //   deck.selectAll('.card').each(function(d,i){
   //     var stackNum = i%2;
@@ -84,7 +94,8 @@ var war = {
 war.buildComponents();
 war.buildCards();
 d3.select('#shuffle').on('click',function(){
-  war.shuffle(war.components.deck)
+  war.shuffle();
+  //war.shuffle(war.components.deck)
 });
 //
 // function dealDeck(players){
