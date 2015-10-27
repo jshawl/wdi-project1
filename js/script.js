@@ -117,6 +117,11 @@ var war = {
     if (burnLength>0){
       this.giveWinnerBurn(winner);
     }
+    var p0score = d3.select('.p0').selectAll('.card')[0].length;
+    var p1score = d3.select('.p1').selectAll('.card')[0].length;
+
+    //function add p0 and p1 scores to chart, keep score somehow
+
     return winner;
   },
   burn:function(plays){
