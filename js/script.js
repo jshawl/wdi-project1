@@ -131,6 +131,9 @@ function play(plays){
       d3.select('.p'+winner).append(function(){
         return that.node();
       })
+      // d3.select('.p'+winner).append(function(){
+      //   return that.node();
+      // })
     }).select('.back').style('opacity',1)
 
   //if there's anything in the dump pile and there's a winner,
