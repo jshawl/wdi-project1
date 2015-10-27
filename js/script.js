@@ -223,4 +223,4 @@ d3.select('#play').on('click', function(){
 });
 d3.select('#reset').on('click',function(){
   war.resetDeck();
-})
+});
