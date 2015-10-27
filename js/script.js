@@ -30,7 +30,7 @@ var war = {
   },
   components:{},
   buildCards:function(){
-    var cards = this.components.deck.selectAll('.card').data(this.buildDeck())
+    var cards = this.components.deck.selectAll('.card').data(this.yates(this.buildDeck()))
       .enter().append('g').attr('class','card')
       .attr('suit', function(d){return d.suit})
       .attr('num',function(d){return d.value});
@@ -49,6 +49,17 @@ var war = {
       return 0.5-Math.random();
     })
     this.components.deck.attr('class','shuffling').transition().delay(1000).attr('class','');
+  },
+  yates:function(array){
+    var m = array.length, t, i;
+    while (m) {
+      i = Math.floor(Math.random() * m--);
+
+      t = array[m];
+      array[m] = array[i];
+      array[i] = t;
+    }
+    return array;
   },
   dealDeck:function(players){
     this.players = players;
