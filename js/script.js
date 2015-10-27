@@ -158,7 +158,9 @@ var war = {
     return burns;
   },
   giveWinner:function(winner){
-    var winnings = this.components.inPlay.selectAll('.card').attr('class','card').attr('stack',winner);
+    var winnings = this.components.inPlay.selectAll('.card')
+      .transition().delay(1000)
+      .attr('class','card').attr('stack',winner);
     // do this in css animations
     //     .transition().duration(300).delay(function(d,i){return i*50})
     //     .attr('transform', function(){

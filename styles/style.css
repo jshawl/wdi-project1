@@ -16,6 +16,13 @@ svg{
 .card .front{
   fill:white;
 }
+.card .back{
+  stroke:gray;
+  stroke-width:2px;
+}
+.card.inPlay .back{
+  opacity:0;
+}
 rect{
   rx:10;
   ry:10;
@@ -57,6 +64,9 @@ rect{
   animation-name: shuffle;
   animation-duration: 1s;
 }
+/*#deck.shuffling .card:nth-child(odd){
+  anm
+}*/
 #inPlay{
   -webkit-transform: translate(350px,500px);
   -moz-transform: translate(350px,500px);
