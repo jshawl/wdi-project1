@@ -1,6 +1,6 @@
 // try to have one global variable
 var war = {
-  deck:[],
+  //deck:[],
   buildDeck: function(){
     var cards = [2,3,4,5,6,7,8,9,10,11,12,13,14];
     var special = ['J','Q','K','A'];
@@ -18,30 +18,38 @@ var war = {
       }
     }
     return deckList;
-  }
+  },
+  buildComponents:function(){
+    this.components.svg = d3.select('body').append('svg');//.attr('height',900).attr('width',1000).style('fill','none')
+    this.components.deck = this.components.svg.append('g').attr('id','deck');
+    this.components.inPlay = this.components.svg.append('g').attr('id','inPlay');
+    this.components.burnPile = this.components.svg.append('g').attr('id','burn');
+    this.components.cardBG = this.components.svg.append('defs').append('pattern').attr('id','cardBg');
+    this.components.cardBG_img = this.components.cardBG.append('image');
+  },
+  components:{},
+
+
 }
 
-
+war.buildComponents();
 
 
 //var deckList = [];
 
-var svg = d3.select('body').append('svg').attr('height',900).attr('width',1000).style('fill','none');
-var deck = svg.append('g').attr('id','deck');
-
 // all code above should have a single interface
 
-var inPlay = svg.append('g').attr('id','inPlay');
-var burnPile = svg.append('g').attr('id','burn');
-var stackG;
+// var inPlay = svg.append('g').attr('id','inPlay');
+// var burnPile = svg.append('g').attr('id','burn');
+//var stackG;
 
-var cardBg = svg.append('defs').append('pattern').attr('id','cardBg')
-  .attr('patternUnits','userSpaceOnUse').attr('width',100).attr('height',100)
-  .append('image').attr('xlink:href','assets/skulls.png').attr('x',0).attr('y',0)
-  .attr('width',100).attr('height',100);
+// var cardBg = svg.append('defs').append('pattern').attr('id','cardBg')
+//   .attr('patternUnits','userSpaceOnUse').attr('width',100).attr('height',100)
+//   .append('image').attr('xlink:href','assets/skulls.png').attr('x',0).attr('y',0)
+//   .attr('width',100).attr('height',100);
 
 
-var cards = deck.selectAll('.card').data(war.buildDeck()).enter().append('svg:g').attr('class','card')
+var cards = war.components.deck.selectAll('.card').data(war.buildDeck()).enter().append('svg:g').attr('class','card')
   .attr('d',function(d){
     return d.value + d.suit;
   })
