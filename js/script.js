@@ -63,14 +63,15 @@ var war = {
     this.components.deck.selectAll('.card').each(function(d,i){
       var stackNum = i%2;
 
-      d3.select(this)
-        .attr('stack',stackNum)
-        .transition().duration(300).delay(function() { return i * 50; })
-        .attr('transform',function(){
-          var x = (i%2==0)?50:500;
-          var y = 400;
-          return 'translate('+x+','+y+')';
-        })
+      d3.select(this).attr('stack',stackNum);
+
+      //trying this in css transitions//
+        // .transition().duration(300).delay(function() { return i * 50; })
+        // .attr('transform',function(){
+        //   var x = (i%2==0)?50:500;
+        //   var y = 400;
+        //   return 'translate('+x+','+y+')';
+        // })
 
       var that = d3.select(this).remove();
       d3.select('.p'+stackNum).append(function(){
@@ -78,64 +79,13 @@ var war = {
       })
     })
   }
-  // function deal(){
-  //   deck.selectAll('.card').each(function(d,i){
-  //     var stackNum = i%2;
-  //
-  //     // replace below with CSS animation
-  //     d3.select(this)
-  //       .attr('stack',stackNum)
-  //       .transition().duration(300).delay(function() { return i * 50; })
-  //       .attr('transform',function(){
-  //         var x = (i%2==0)?50:500;
-  //         var y = 400;
-  //         return 'translate('+x+','+y+')';
-  //       })
-  //       // to here
-  //
-  //     var that = d3.select(this).remove();
-  //     d3.select('.p'+stackNum).append(function(){
-  //       return that.node()
-  //     })
-  //   })
-  // }
 }
 
 war.buildComponents();
 war.buildCards();
 d3.select('#shuffle').on('click',function(){
   war.shuffle();
-  //war.shuffle(war.components.deck)
 });
-//
-// function dealDeck(players){
-//   //deal deck to X number of players;
-//   stackG = svg.selectAll('.stack').data(d3.range(players)).enter().append('g')
-//     .attr('class',function(d,i){return 'stack p'+i})
-//   deal();
-// }
-
-// function deal(){
-//   deck.selectAll('.card').each(function(d,i){
-//     var stackNum = i%2;
-//
-//     // replace below with CSS animation
-//     d3.select(this)
-//       .attr('stack',stackNum)
-//       .transition().duration(300).delay(function() { return i * 50; })
-//       .attr('transform',function(){
-//         var x = (i%2==0)?50:500;
-//         var y = 400;
-//         return 'translate('+x+','+y+')';
-//       })
-//       // to here
-//
-//     var that = d3.select(this).remove();
-//     d3.select('.p'+stackNum).append(function(){
-//       return that.node()
-//     })
-//   })
-// }
 
 function getCards(){
   //get the top card from each stack

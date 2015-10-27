@@ -16,26 +16,43 @@ svg{
 .card .front{
   fill:white;
 }
+.card{
+  -webkit-transition: 2s ease-in-out;
+  -moz-transition: 2s ease-in-out;
+  -o-transition: 2s ease-in-out;
+  transition: 2s ease-in-out;
+}
 rect{
   rx:10;
   ry:10;
   height:200px;
   width:150px;
 }
-
-/*.p0 > .card{
-  animation-duration:1s;
-  transform: translate(50,500);
-  height:500px;
-}*/
-/*div {
-    width: 100px;
-    height: 100px;
-    background-color: red;
-    animation-name: example;
-    animation-duration: 4s;
-}*/
-
+.card{
+  -moz-transition:transform 0.25s;
+  -o-transition:transform 0.25s;
+  -webkit-transition:transform 0.25s;
+  transition: transform 0.25s;
+  -webkit-transform: translate(50px,50px);
+  -moz-transform: translate(50px,50px);
+  -o-transform: translate(50px,50px);
+  -ms-transform: translate(50px,50px);
+  transform: translate(50px,50px);
+}
+.card[stack='0']{
+  -webkit-transform: translate(50px,200px);
+  -moz-transform: translate(50px,200px);
+  -o-transform: translate(50px,200px);
+  -ms-transform: translate(50px,200px);
+  transform: translate(50px,200px);
+}
+.card[stack='1']{
+  -webkit-transform: translate(500px,200px);
+  -moz-transform: translate(500px,200px);
+  -o-transform: translate(500px,200px);
+  -ms-transform: translate(500px,200px);
+  transform: translate(500px,200px);
+}
 button{
   position:absolute;
   top:10px;
