@@ -43,3 +43,8 @@ button[disabled='true']{
 button:focus,button:active{
   outline:none;
 }
+path{
+  fill:none;
+  stroke:white;
+  stroke-width:3px;
+}

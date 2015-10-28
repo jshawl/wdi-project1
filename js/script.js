@@ -35,6 +35,12 @@ var war = {
       .append('image').attr('xlink:href','assets/skulls.png')
         .attr('x',0).attr('y',0).attr('width',100).attr('height',100);
   },
+  initGraph:function(players){
+    this.components.lines = this.components.graph.selectAll('.line').data(d3.range(players)).enter()
+      .append('path').attr('class','line');
+    this.components.lineGen = d3.svg.line().x(function(d,i) { return (d * 10) + 300; })
+      .y(function(d,i) { return 50+(i*2);}).interpolate("basis");
+  },
   components:{},
   counts:[[],[]],
   buildCards:function(){
@@ -77,6 +83,7 @@ var war = {
     this.components.stackG.enter().append('g')
       .attr('class',function(d,i){return 'stack p'+i});
     this.components.stackG.exit().remove();
+    this.initGraph(players);
     this.deal();
   },
   deal:function(){
@@ -133,14 +140,17 @@ var war = {
     return winner;
   },
   vizualize:function(data){
-    var bars = this.components.graph.selectAll('rect').data(data);
-    bars.enter().append('rect');
-    bars.exit().remove();
-
-    bars.transition().duration(100)
-      .style('height',function(d){return d/52*500})
-      .style('width',150)
-      .style('stroke','white')
+    console.log(data);
+    console.log(this.counts);
+    this.components.lines.data(this.counts).attr('d',this.components.lineGen);
+    // var bars = this.components.graph.selectAll('rect').data(data);
+    // bars.enter().append('rect');
+    // bars.exit().remove();
+    //
+    // bars.transition().duration(100)
+    //   .style('height',function(d){return d/52*500})
+    //   .style('width',150)
+    //   .style('stroke','white')
   },
   burn:function(plays){
     var burnCounts = this.getBurnCounts();
