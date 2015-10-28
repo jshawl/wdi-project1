@@ -1,7 +1,5 @@
 // still to do:
-// make shuffling actually shuffle deck
-// clean up animations
-// maybe add analysis, look at score, history trending up/down
+// add analysis, look at score, history trending up/down
 //
 
 var war = {
@@ -51,10 +49,12 @@ var war = {
     return cards;
   },
   shuffle:function(){
-    // this.components.deck.selectAll('.card').sort(function(d){
-    //   return 0.5-Math.random();
-    // })
-    this.components.deck.attr('class','shuffling').transition().delay(1000).attr('class','');
+    this.components.deck.selectAll('.card').remove();
+    this.buildCards();
+    this.components.deck.selectAll('.card').each(function(d,i){
+      d3.select(this).transition().delay(50*i).attr('class','card shuffling');
+      d3.select(this).transition().delay((50*i)+300).attr('class','card');
+    })
   },
   yates:function(array){
     var m = array.length, t, i;
@@ -139,7 +139,7 @@ var war = {
     })
     this.components.inPlay.selectAll('.card')
       .each(function(d,i){
-        d3.select(this).transition().delay(500).attr('class','card burn');
+        d3.select(this).transition().delay(1000).attr('class','card burn');
         var that = d3.select(this).remove();
         burnPile.append(function(){
           return that.node();

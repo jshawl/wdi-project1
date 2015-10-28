@@ -1,9 +1,14 @@
 .card{
-  -webkit-transform: translate(50px,50px);
-  -moz-transform: translate(50px,50px);
-  -o-transform: translate(50px,50px);
-  -ms-transform: translate(50px,50px);
-  transform: translate(50px,50px);
+  -webkit-transform:translate(375px, 350px) rotate(0deg);
+  -moz-transform:translate(375px, 350px) rotate(0deg);
+  -o-transform:translate(375px, 350px) rotate(0deg);
+  -ms-transform:translate(375px, 350px) rotate(0deg);
+  transform:translate(375px, 350px) rotate(0deg);
+  -webkit-transform-origin: center;
+  -moz-transform-origin: center;
+  -o-transform-origin: center;
+  -ms-transform-origin: center;
+  transform-origin: center;
 }
 .card[stack='0']{
   -webkit-transform: translate(100px,400px);
@@ -36,18 +41,13 @@
 .card.inPlay .back{
   opacity:0;
 }
-/*.shuffling .card{
-  -webkit-transform: rotate(720deg);
-  -moz-transform: rotate(720deg);
-  -o-transform: rotate(720deg);
-  -ms-transform: rotate(720deg);
-  transform: rotate(720deg);
-  -webkit-transform-origin: center;
-  -moz-transform-origin: center;
-  -o-transform-origin: center;
-  -ms-transform-origin: center;
-  transform-origin: center;
-}*/
+.card.shuffling{
+  -webkit-transform:translate(375px, 350px) rotate(360deg);
+  -moz-transform:translate(375px, 350px) rotate(360deg);
+  -o-transform:translate(375px, 350px) rotate(360deg);
+  -ms-transform:translate(375px, 350px) rotate(360deg);
+  transform:translate(375px, 350px) rotate(360deg);
+}
 .card.burn{
   -webkit-transform: translate(650px,50px);
   -moz-transform: translate(650px,50px);
