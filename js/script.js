@@ -145,6 +145,14 @@ var war = {
     this.counts[1].push(p1score);
 
     this.vizualize([p0score,p1score]);
+
+    if (p0score == 0 || p1score == 0){
+      d3.select('#shuffle').attr('disabled','true');
+      d3.select('#deal').attr('disabled','true');
+      d3.select('#play').attr('disabled','true');
+      d3.select('#reset').attr('disabled',null);
+      d3.select('#auto').attr('disabled','true');
+    }
   },
   vizualize:function(data){
     var line = this.components.singleLine;
