@@ -50,6 +50,8 @@ button:focus,button:active{
 }
 path{
   fill:none;
+}
+.line{
   stroke:white;
   stroke-width:3px;
 }
@@ -58,6 +60,6 @@ path{
   stroke-width:15px;
   z-index:0;
 }
-.winLine:last-of-type{
+.winLine:nth-of-type(2){
   stroke:red;
 }

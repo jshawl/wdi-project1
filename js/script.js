@@ -1,5 +1,5 @@
 // still to do:
-// auto-complete game
+// auto-complete game-->bug when game ends with war
 
 var war = {
   buildDeck: function(){
@@ -34,15 +34,19 @@ var war = {
     this.initGraph();
   },
   initGraph:function(players){
-    this.components.singleLine = this.components.graph.selectAll('.single').data(d3.range(1)).enter()
-      .append('path').attr('class','single');
     this.components.singleGen = d3.svg.line().x(function(d){return 450+((26-d)*10)})
        .y(function(d,i){return 50+(i*125)}).interpolate('linear');
     var lineGen = this.components.singleGen;
-    this.vizualize(26);
-    this.components.winnerLines = this.components.graph.selectAll('.winners').data([0,52]).enter()
+    this.components.winnerLines = this.components.graph.selectAll('.winLine').data([0,52]).enter()
       .append('path').attr('class','winLine')
       .attr('d',function(d){return lineGen([d,d,d])});
+    this.components.singleLine = this.components.graph.selectAll('.line').data(d3.range(1)).enter()
+      .append('path').attr('class','line');
+
+    this.components.scores = this.components.graph.selectAll('.score').data(d3.range(2)).enter()
+      .append('text').attr('class','score');
+
+    this.vizualize([26,26]);
   },
   components:{},
   counts:[[26],[26]],
@@ -132,25 +136,25 @@ var war = {
     if (burnLength>0){
       this.giveWinnerBurn(winner);
     }
+    this.getScores();
+  },
+  getScores:function(){
     var p0score = d3.select('.p0').selectAll('.card')[0].length;
     var p1score = d3.select('.p1').selectAll('.card')[0].length;
 
-    //function add p0 and p1 scores to chart, keep score somehow
     this.counts[0].push(p0score);
     this.counts[1].push(p1score);
 
-    this.vizualize(p0score);
-
-    // if (p0score == 0 || p1score == 0){
-    //   this.resetDeck();
-    // }
+    this.vizualize([p0score,p1score]);
   },
   vizualize:function(data){
     var line = this.components.singleLine;
     var lineGen = this.components.singleGen;
     line.transition().duration(300).attr('d',function(){
-      return lineGen([26,data,26]);
+      return lineGen([26,data[0],26]);
     });
+    var scores = this.components.scores.data(data);
+    scores.transition().duration(300).text(function(d){return d});
   },
   burn:function(plays){
     var burnCounts = this.getBurnCounts();
@@ -214,10 +218,11 @@ var war = {
     })
     .transition().delay(300).attr('class','card').attr('stack',null)
     this.vizualize(26);
+    this.counts = [[],[]];
+    this.plays = 0;
   },
   autoComplete:function(){
     var p0score = d3.select('.p0').selectAll('.card')[0].length;
-    //var p1score = d3.select('.p1').selectAll('.card')[0].length;
     while (p0score >= 0 || p0score <= 52){
       var plays = this.getPlays();
       this.playHand(plays);
@@ -225,7 +230,6 @@ var war = {
       if (p0score == 0 || p0score == 52){
         return;
       }
-      //console.log(p0score);
     }
   }
 }
@@ -239,6 +243,7 @@ d3.select('#deal').on('click', function(){
   d3.select(this).attr('disabled','true');
   d3.select('#play').attr('disabled',null);
   d3.select('#reset').attr('disabled',null);
+  d3.select('#auto').attr('disabled',null);
   war.dealDeck(2);
 });
 d3.select('#play').on('click', function(){
@@ -250,5 +255,9 @@ d3.select('#reset').on('click',function(){
   d3.select('#deal').attr('disabled',null);
   d3.select('#play').attr('disabled','true');
   d3.select(this).attr('disabled','true');
+  d3.select('#auto').attr('disabled','true');
   war.resetDeck();
 });
+d3.select('#auto').on('click',function(){
+  war.autoComplete();
+})
