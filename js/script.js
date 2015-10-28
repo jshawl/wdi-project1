@@ -36,13 +36,14 @@ var war = {
         .attr('x',0).attr('y',0).attr('width',100).attr('height',100);
   },
   initGraph:function(players){
-    this.components.lines = this.components.graph.selectAll('.line').data(d3.range(players)).enter()
-      .append('path').attr('class','line');
-    this.components.lineGen = d3.svg.line().x(function(d,i) { return (d * 10) + 300; })
-      .y(function(d,i) { return 50+(i*2);}).interpolate("basis");
+    this.components.singleLine = this.components.graph.selectAll('.single').data(d3.range(1)).enter()
+      .append('path').attr('class','single');
+    this.components.singleGen = d3.svg.line().x(function(d){return 450+((26-d)*10)})
+       .y(function(d,i){return 50+(i*125)}).interpolate('basis');
+    this.vizualize(26);
   },
   components:{},
-  counts:[[],[]],
+  counts:[[26],[26]],
   buildCards:function(){
     var cards = this.components.deck.selectAll('.card').data(this.yates(this.buildDeck()))
       .enter().append('g').attr('class','card')
@@ -135,22 +136,20 @@ var war = {
     this.counts[0].push(p0score);
     this.counts[1].push(p1score);
 
-    //this.vizualize(this.counts);
-    this.vizualize([p0score,p1score]);
+    this.vizualize(p0score);
     return winner;
   },
   vizualize:function(data){
-    console.log(data);
-    console.log(this.counts);
-    this.components.lines.data(this.counts).attr('d',this.components.lineGen);
-    // var bars = this.components.graph.selectAll('rect').data(data);
-    // bars.enter().append('rect');
-    // bars.exit().remove();
-    //
-    // bars.transition().duration(100)
-    //   .style('height',function(d){return d/52*500})
-    //   .style('width',150)
-    //   .style('stroke','white')
+    var line = this.components.singleLine;
+    var lineGen = this.components.singleGen;
+    line.transition().duration(300).attr('d',function(){
+      return lineGen([26,data,26]);
+    })
+    // console.log(data);
+    // console.log(this.counts);
+    //this.components.lines.data(this.counts).attr('d',this.components.lineGen);
+    //this.components.singleLine.data([26,data[0],26]).attr('d',this.components.lineGen);
+    //line.attr('d',this.components.singleGen);
   },
   burn:function(plays){
     var burnCounts = this.getBurnCounts();
