@@ -28,6 +28,7 @@ var war = {
     this.components.deck = this.components.svg.append('g').attr('id','deck');
     this.components.inPlay = this.components.svg.append('g').attr('id','inPlay');
     this.components.burnPile = this.components.svg.append('g').attr('id','burn');
+    this.components.graph = this.components.svg.append('g').attr('id','graph');
     this.components.cardBG = this.components.svg.append('defs')
       .append('pattern').attr('id','cardBg').attr('patternUnits','userSpaceOnUse')
         .attr('width',100).attr('height',100)
@@ -35,6 +36,7 @@ var war = {
         .attr('x',0).attr('y',0).attr('width',100).attr('height',100);
   },
   components:{},
+  counts:[[],[]],
   buildCards:function(){
     var cards = this.components.deck.selectAll('.card').data(this.yates(this.buildDeck()))
       .enter().append('g').attr('class','card')
@@ -123,7 +125,22 @@ var war = {
     var p1score = d3.select('.p1').selectAll('.card')[0].length;
 
     //function add p0 and p1 scores to chart, keep score somehow
+    this.counts[0].push(p0score);
+    this.counts[1].push(p1score);
+
+    //this.vizualize(this.counts);
+    this.vizualize([p0score,p1score]);
     return winner;
+  },
+  vizualize:function(data){
+    var bars = this.components.graph.selectAll('rect').data(data);
+    bars.enter().append('rect');
+    bars.exit().remove();
+
+    bars.transition().duration(100)
+      .style('height',function(d){return d/52*500})
+      .style('width',150)
+      .style('stroke','white')
   },
   burn:function(plays){
     var burnCounts = this.getBurnCounts();
@@ -194,8 +211,8 @@ d3.select('#shuffle').on('click',function(){
   war.shuffle();
 });
 d3.select('#deal').on('click', function(){
-  d3.select('#shuffle').attr('disabled',true);
-  d3.select(this).attr('disabled',true);
+  d3.select('#shuffle').attr('disabled','true');
+  d3.select(this).attr('disabled','true');
   d3.select('#play').attr('disabled',null);
   d3.select('#reset').attr('disabled',null);
   war.dealDeck(2);
@@ -207,7 +224,7 @@ d3.select('#play').on('click', function(){
 d3.select('#reset').on('click',function(){
   d3.select('#shuffle').attr('disabled',null);
   d3.select('#deal').attr('disabled',null);
-  d3.select('#play').attr('disabled',true);
-  d3.select(this).attr('disabled',true);
+  d3.select('#play').attr('disabled','true');
+  d3.select(this).attr('disabled','true');
   war.resetDeck();
 });

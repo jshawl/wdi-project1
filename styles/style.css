@@ -35,4 +35,11 @@ button{
   font-size:32px;
   border-radius:10px;
   font-family:'Montserrat','arial',sans-serif;
+  cursor:pointer;
+}
+button[disabled='true']{
+  cursor:default;
+}
+button:focus,button:active{
+  outline:none;
 }
