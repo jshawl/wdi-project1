@@ -11,7 +11,9 @@ I programmed War by breaking the game down into it's component parts:
 5. The player with the high card add all discarded cards to the bottom of their deck.
 6. Repeat x Infinity until someone has all the cards.
 
-I first programmed the basic game logic in Javascript. I generated a deck of cards using nested arrays of the card values and suits, and output individual cards as `div.card` children to a `div#deck` parent. From there, cards were dealt to two players, which were represented as `div.stack`, using the `appendChild()` method. When a round was played, the first children of each `.stack` was then appended to a `div.inPlay` parent, where their values were compared.
+I first programmed the basic game logic in Javascript. I generated a deck of cards using nested arrays of the card values and suits, and split the deck into two arrays, one for each player. Cards were played from each stack array using the `.pop()` method, values were compared, and the items were added back to the winning array using the `.push()` method. When there was a War, each stack array `.splice()`'d the next three elements and added them to a burnPile array, and the next time a player won a round, the contents of the burnPile would be `.push()`'d to the winning array.
+
+Functionally, this worked fine. In the DOM I could use some deception. There would need to be 52 elements representing each card because a user would only want to see the cards in play. Instead, I thought it would be interesting to treat each card as a discrete piece of data. I used d3.js to bind data to card elements, so I could then compare each actual card at play rather than values from an array.
 
 
 
