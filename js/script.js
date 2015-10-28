@@ -1,6 +1,4 @@
-// still to do:
-// auto-complete game-->bug when game ends with war
-
+// auto-complete game-->bug when game ends in a war
 var war = {
   buildDeck: function(){
     var cards = [2,3,4,5,6,7,8,9,10,11,12,13,14];
@@ -42,9 +40,10 @@ var war = {
       .attr('d',function(d){return lineGen([d,d,d])});
     this.components.singleLine = this.components.graph.selectAll('.line').data(d3.range(1)).enter()
       .append('path').attr('class','line');
-
     this.components.scores = this.components.graph.selectAll('.score').data(d3.range(2)).enter()
       .append('text').attr('class','score');
+    this.components.playCount = this.components.graph.selectAll('.counter').data(d3.range(1)).enter()
+      .append('text').attr('class','counter');
 
     this.vizualize([26,26]);
   },
@@ -154,7 +153,8 @@ var war = {
       return lineGen([26,data[0],26]);
     });
     var scores = this.components.scores.data(data);
-    scores.transition().duration(300).text(function(d){return d});
+    scores.text(function(d){return d});
+    this.components.playCount.text(this.plays);
   },
   burn:function(plays){
     var burnCounts = this.getBurnCounts();
@@ -216,10 +216,10 @@ var war = {
         return that.node();
       })
     })
-    .transition().delay(300).attr('class','card').attr('stack',null)
-    this.vizualize(26);
-    this.counts = [[],[]];
+    .transition().delay(300).attr('class','card').attr('stack',null);
     this.plays = 0;
+    this.vizualize([26,26]);
+    this.counts = [[],[]];
   },
   autoComplete:function(){
     var p0score = d3.select('.p0').selectAll('.card')[0].length;

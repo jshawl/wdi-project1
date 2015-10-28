@@ -9,6 +9,7 @@
   -o-transform-origin: center;
   -ms-transform-origin: center;
   transform-origin: center;
+  z-index:100;
 }
 .card[stack='0']{
   -webkit-transform: translate(100px,400px);

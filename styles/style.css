@@ -63,3 +63,29 @@ path{
 .winLine:nth-of-type(2){
   stroke:red;
 }
+.score{
+  -webkit-transform: translate(50px,200px);
+  -moz-transform: translate(50px,200px);
+  -o-transform: translate(50px,200px);
+  -ms-transform: translate(50px,200px);
+  transform: translate(50px,200px);
+  font-size:100px;
+  fill:white;
+}
+.score:nth-of-type(2){
+  -webkit-transform: translate(730px,200px);
+  -moz-transform: translate(730px,200px);
+  -o-transform: translate(730px,200px);
+  -ms-transform: translate(730px,200px);
+  transform: translate(730px,200px);
+}
+.counter{
+  -webkit-transform: translate(450px,200px);
+  -moz-transform: translate(450px,200px);
+  -o-transform: translate(450px,200px);
+  -ms-transform: translate(450px,200px);
+  transform: translate(450px,200px);
+  font-size:40px;
+  fill:white;
+  text-anchor:middle;
+}
