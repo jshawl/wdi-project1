@@ -1,6 +1,8 @@
 // still to do:
 // add analysis, look at score, history trending up/down
-//
+// auto-complete game
+// actually write when game ends
+// fix layout
 
 var war = {
   buildDeck: function(){
@@ -22,7 +24,7 @@ var war = {
     return deckList;
   },
   buildComponents:function(){
-    this.components.svg = d3.select('body').append('svg').attr('height',900).attr('width',1000);
+    this.components.svg = d3.select('body').append('svg').attr('height',800).attr('width',900);
     this.components.deck = this.components.svg.append('g').attr('id','deck');
     this.components.inPlay = this.components.svg.append('g').attr('id','inPlay');
     this.components.burnPile = this.components.svg.append('g').attr('id','burn');
@@ -121,7 +123,6 @@ var war = {
     var p1score = d3.select('.p1').selectAll('.card')[0].length;
 
     //function add p0 and p1 scores to chart, keep score somehow
-
     return winner;
   },
   burn:function(plays){
@@ -193,6 +194,10 @@ d3.select('#shuffle').on('click',function(){
   war.shuffle();
 });
 d3.select('#deal').on('click', function(){
+  d3.select('#shuffle').attr('disabled',true);
+  d3.select(this).attr('disabled',true);
+  d3.select('#play').attr('disabled',null);
+  d3.select('#reset').attr('disabled',null);
   war.dealDeck(2);
 });
 d3.select('#play').on('click', function(){
@@ -200,5 +205,9 @@ d3.select('#play').on('click', function(){
   war.playHand(plays);
 });
 d3.select('#reset').on('click',function(){
+  d3.select('#shuffle').attr('disabled',null);
+  d3.select('#deal').attr('disabled',null);
+  d3.select('#play').attr('disabled',true);
+  d3.select(this).attr('disabled',true);
   war.resetDeck();
 });
