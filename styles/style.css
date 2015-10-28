@@ -50,6 +50,8 @@ path{
 }
 .winLine{
   stroke:blue;
+  stroke-width:15px;
+  z-index:0;
 }
 .winLine:last-of-type{
   stroke:red;
