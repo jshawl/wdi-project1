@@ -27,9 +27,10 @@ Structurally, my code is composed mostly of a single global variable called `war
 * When a game ends in a War, the cards are in an odd place. This can be fixed when the reset button is clicked, but it looks a bit weird before then.
 
 ####Installation Instructions
-Fork and clone the repo. Can be run in gh-pages.
-View Application [here](cpgruber.github.io/wdi-project1)
-View Code [here](https://github.com/cpgruber/wdi-project1/tree/master)
+* Fork and clone the repo.
+* Can be run in gh-pages.
+* View Application [here](http://cpgruber.github.io/wdi-project1).
+* View Code [here](https://github.com/cpgruber/wdi-project1/tree/master).
 
 ####User Stories:
 1. A player should be able to start a game/get a stack of cards so that they can play War.
