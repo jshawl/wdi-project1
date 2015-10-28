@@ -141,7 +141,11 @@ var war = {
     this.counts[1].push(p1score);
 
     this.vizualize(p0score);
-    return winner;
+
+    if (p0score == 0 || p1score == 0){
+      this.resetDeck();
+    }
+    //return winner;
   },
   vizualize:function(data){
     var line = this.components.singleLine;

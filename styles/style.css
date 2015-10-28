@@ -5,6 +5,8 @@ body{
 }
 svg{
   fill:none;
+  margin:0 auto;
+  display:block;
 }
 .card text{
   fill:red;
