@@ -26,7 +26,7 @@ Structurally, my code is composed mostly of a single global variable called `war
 
 ####Unsolved Problems
 * I would have liked to allow for more players, but the division (52/3 ?) didn't make sense to me.
-* Clicking auto-finish could cause the page to freeze sometimes. My guess is that the game ends in a tie, where both stack might mirror each other, causing an unending loop.
+* Clicking auto-finish could cause the page to freeze sometimes. My guess is that the game ends in a tie, where both stack might mirror each other, causing an unending loop. <-- bug fixed!
 * When a game ends in a War, the cards are in an odd place. This can be fixed when the reset button is clicked, but it looks a bit weird before then.
 
 ####Installation Instructions
