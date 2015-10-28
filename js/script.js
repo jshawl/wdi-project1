@@ -40,7 +40,12 @@ var war = {
       .append('path').attr('class','single');
     this.components.singleGen = d3.svg.line().x(function(d){return 450+((26-d)*10)})
        .y(function(d,i){return 50+(i*125)}).interpolate('basis');
+    var lineGen = this.components.singleGen;
     this.vizualize(26);
+    this.components.winnerLines = this.components.graph.selectAll('.winners').data([0,52]).enter()
+      .append('path').attr('class','winLine')
+      .attr('d',function(d){return lineGen([d,d,d])});
+
   },
   components:{},
   counts:[[26],[26]],
