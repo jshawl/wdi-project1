@@ -1,8 +1,5 @@
 // still to do:
-// add analysis, look at score, history trending up/down
 // auto-complete game
-// actually write when game ends
-// fix layout
 
 var war = {
   buildDeck: function(){
@@ -24,7 +21,7 @@ var war = {
     return deckList;
   },
   buildComponents:function(){
-    this.components.svg = d3.select('body').append('svg').attr('height',800).attr('width',900);
+    this.components.svg = d3.select('body').append('svg').attr('height',600).attr('width',900);
     this.components.deck = this.components.svg.append('g').attr('id','deck');
     this.components.inPlay = this.components.svg.append('g').attr('id','inPlay');
     this.components.burnPile = this.components.svg.append('g').attr('id','burn');

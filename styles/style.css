@@ -30,6 +30,9 @@ rect{
   height:200px;
   width:150px;
 }
+.buttons{
+  text-align: center;
+}
 button{
   display:inline-block;
   width:auto;
