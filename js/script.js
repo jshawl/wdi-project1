@@ -1,4 +1,3 @@
-// auto-complete game-->bug when game ends in a war
 var war = {
   buildDeck: function(){
     var cards = [2,3,4,5,6,7,8,9,10,11,12,13,14];
@@ -50,6 +49,7 @@ var war = {
   components:{},
   counts:[[26],[26]],
   plays:0,
+  interval:null,
   buildCards:function(){
     var cards = this.components.deck.selectAll('.card').data(this.yates(this.buildDeck()))
       .enter().append('g').attr('class','card')
@@ -228,44 +228,57 @@ var war = {
     this.plays = 0;
     this.vizualize([26,26]);
     this.counts = [[],[]];
+    clearInterval(this.interval);
   },
   autoComplete:function(){
     var p0score = d3.select('.p0').selectAll('.card')[0].length;
-    while (p0score >= 0 || p0score <= 52){
-      var plays = this.getPlays();
-      this.playHand(plays);
+    var playsFxn = this.getPlays;
+    var playHandFxn = this.playHand;
+    var interval = this.interval
+    var self = this;
+    this.interval = setInterval(function(){
+      var plays = self.getPlays();
+      self.playHand(plays);
       p0score = d3.select('.p0').selectAll('.card')[0].length;
       if (p0score == 0 || p0score == 52){
-        return;
+        clearInterval(self.interval);
       }
-    }
+    },50);
+  },
+  buttonHookup:function(){
+    d3.select('#shuffle').on('click',function(){
+      war.shuffle();
+    });
+    d3.select('#deal').on('click', function(){
+      d3.select('#shuffle').attr('disabled','true');
+      d3.select(this).attr('disabled','true');
+      d3.select('#play').attr('disabled',null);
+      d3.select('#reset').attr('disabled',null);
+      d3.select('#auto').attr('disabled',null);
+      war.dealDeck(2);
+    });
+    d3.select('#play').on('click', function(){
+      var plays = war.getPlays();
+      war.playHand(plays);
+    });
+    d3.select('#reset').on('click',function(){
+      d3.select('#shuffle').attr('disabled',null);
+      d3.select('#deal').attr('disabled',null);
+      d3.select('#play').attr('disabled','true');
+      d3.select(this).attr('disabled','true');
+      d3.select('#auto').attr('disabled','true');
+      war.resetDeck();
+    });
+    d3.select('#auto').on('click',function(){
+      d3.select('#play').attr('disabled','true');
+      d3.select(this).attr('disabled','true');
+      war.autoComplete();
+    })
+  },
+  gameInit:function(){
+    this.buildComponents();
+    this.buildCards();
+    this.buttonHookup();
   }
 }
-war.buildComponents();
-war.buildCards();
-d3.select('#shuffle').on('click',function(){
-  war.shuffle();
-});
-d3.select('#deal').on('click', function(){
-  d3.select('#shuffle').attr('disabled','true');
-  d3.select(this).attr('disabled','true');
-  d3.select('#play').attr('disabled',null);
-  d3.select('#reset').attr('disabled',null);
-  d3.select('#auto').attr('disabled',null);
-  war.dealDeck(2);
-});
-d3.select('#play').on('click', function(){
-  var plays = war.getPlays();
-  war.playHand(plays);
-});
-d3.select('#reset').on('click',function(){
-  d3.select('#shuffle').attr('disabled',null);
-  d3.select('#deal').attr('disabled',null);
-  d3.select('#play').attr('disabled','true');
-  d3.select(this).attr('disabled','true');
-  d3.select('#auto').attr('disabled','true');
-  war.resetDeck();
-});
-d3.select('#auto').on('click',function(){
-  war.autoComplete();
-})
+war.gameInit();
