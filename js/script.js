@@ -46,6 +46,7 @@ var war = {
   },
   components:{},
   counts:[[26],[26]],
+  plays:0,
   buildCards:function(){
     var cards = this.components.deck.selectAll('.card').data(this.yates(this.buildDeck()))
       .enter().append('g').attr('class','card')
@@ -116,6 +117,7 @@ var war = {
     return playArr;
   },
   playHand: function(plays){
+    this.plays++;
     var winner;
     if (plays[0]>plays[1]){
       winner = 0;
@@ -139,10 +141,9 @@ var war = {
 
     this.vizualize(p0score);
 
-    if (p0score == 0 || p1score == 0){
-      this.resetDeck();
-    }
-    //return winner;
+    // if (p0score == 0 || p1score == 0){
+    //   this.resetDeck();
+    // }
   },
   vizualize:function(data){
     var line = this.components.singleLine;
@@ -213,6 +214,19 @@ var war = {
     })
     .transition().delay(300).attr('class','card').attr('stack',null)
     this.vizualize(26);
+  },
+  autoComplete:function(){
+    var p0score = d3.select('.p0').selectAll('.card')[0].length;
+    //var p1score = d3.select('.p1').selectAll('.card')[0].length;
+    while (p0score >= 0 || p0score <= 52){
+      var plays = this.getPlays();
+      this.playHand(plays);
+      p0score = d3.select('.p0').selectAll('.card')[0].length;
+      if (p0score == 0 || p0score == 52){
+        return;
+      }
+      //console.log(p0score);
+    }
   }
 }
 war.buildComponents();
