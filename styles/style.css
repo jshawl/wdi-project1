@@ -58,7 +58,6 @@ path{
 .winLine{
   stroke:blue;
   stroke-width:15px;
-  z-index:0;
 }
 .winLine:nth-of-type(2){
   stroke:red;

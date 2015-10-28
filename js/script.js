@@ -20,10 +20,10 @@ var war = {
   },
   buildComponents:function(){
     this.components.svg = d3.select('body').append('svg').attr('height',600).attr('width',900);
+    this.components.graph = this.components.svg.append('g').attr('id','graph');
     this.components.deck = this.components.svg.append('g').attr('id','deck');
     this.components.inPlay = this.components.svg.append('g').attr('id','inPlay');
     this.components.burnPile = this.components.svg.append('g').attr('id','burn');
-    this.components.graph = this.components.svg.append('g').attr('id','graph');
     this.components.cardBG = this.components.svg.append('defs')
       .append('pattern').attr('id','cardBg').attr('patternUnits','userSpaceOnUse')
         .attr('width',100).attr('height',100)
