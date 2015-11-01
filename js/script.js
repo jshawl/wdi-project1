@@ -1,4 +1,4 @@
-var war = {
+var war = { // hell yeah!!!
   buildDeck: function(){
     var cards = [2,3,4,5,6,7,8,9,10,11,12,13,14];
     var special = ['J','Q','K','A'];
@@ -18,7 +18,7 @@ var war = {
     return deckList;
   },
   buildComponents:function(){
-    this.components.svg = d3.select('body').append('svg').attr('height',600).attr('width',900);
+    this.components.svg = d3.select('body').append('svg').attr('height',600).attr('width',900); // consider setting height and width in css
     this.components.graph = this.components.svg.append('g').attr('id','graph');
     this.components.deck = this.components.svg.append('g').attr('id','deck');
     this.components.inPlay = this.components.svg.append('g').attr('id','inPlay');
@@ -31,7 +31,7 @@ var war = {
     this.initGraph();
   },
   initGraph:function(players){
-    this.components.singleGen = d3.svg.line().x(function(d){return 450+((26-d)*10)})
+    this.components.singleGen = d3.svg.line().x(function(d){return 450+((26-d)*10)}) // where are these numbers coming from?
        .y(function(d,i){return 50+(i*125)}).interpolate('linear');
     var lineGen = this.components.singleGen;
     this.components.winnerLines = this.components.graph.selectAll('.winLine').data([0,52]).enter()
@@ -77,14 +77,14 @@ var war = {
     var m = array.length, t, i;
     while (m) {
       i = Math.floor(Math.random() * m--);
-      t = array[m];
+      t = array[m]; // remember var
       array[m] = array[i];
       array[i] = t;
     }
     return array;
   },
   dealDeck:function(players){
-    this.players = players;
+    this.players = players; // should this be an attribute of your war object? I'm not sure myself.
     this.components.stackG = this.components.svg.selectAll('.stack')
       .data(d3.range(players));
     this.components.stackG.enter().append('g')
@@ -140,6 +140,8 @@ var war = {
   getScores:function(){
     var p0score = d3.select('.p0').selectAll('.card')[0].length;
     var p1score = d3.select('.p1').selectAll('.card')[0].length;
+    // can you think of a way to add an arbitrary amount of players to a game and compare their cards?
+    // maybe this is related to a players attribute on your war object.
 
     this.counts[0].push(p0score);
     this.counts[1].push(p1score);
@@ -190,7 +192,7 @@ var war = {
     var burns = [];
     this.components.stackG.each(function(d,i){
       var len = d3.select(this).selectAll('.card')[0].length;
-      var burn = (len>3)?3:len - 1;
+      var burn = (len>3)?3:len - 1; // nice use of ternary!
       burns.push(burn);
     })
     return burns;
@@ -245,7 +247,7 @@ var war = {
       }
     },50);
   },
-  buttonHookup:function(){
+  buttonHookup:function(){ // yes! this is how I set up event listeners myself.
     d3.select('#shuffle').on('click',function(){
       war.shuffle();
     });
@@ -279,6 +281,7 @@ var war = {
     this.buildComponents();
     this.buildCards();
     this.buttonHookup();
+    // excellent!!!
   }
 }
 war.gameInit();
